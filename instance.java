@@ -4,6 +4,7 @@ import java.lang.*;
 class Instance {
   private Vector<Object> instanceAttributes;
   private Map<String, Integer> attributeIndices;
+  private String label;
 
   public Instance(Vector<String> attributeNames) {
     attributeIndices = new HashMap<String, Integer>();
@@ -22,6 +23,10 @@ class Instance {
   public void add(Object attrVal) {
     instanceAttributes.add(attrVal);
   }
+
+  public void setLabel(String label) { this.label = label; }
+
+  public String getLabel { return this.label; }
 }
 
 class InstanceSet {
