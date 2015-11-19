@@ -2,13 +2,14 @@ import java.util.*;
 import java.lang.*;
 
 class Instance {
-  private Vector<Object> instanceAttributes;
+  private Vector<Comparable> instanceAttributes;
   private Map<String, Integer> attributeIndices;
   private String label;
 
   public Instance(Vector<String> attributeNames) {
     attributeIndices = new HashMap<String, Integer>();
-    instanceAttributes = new Vector<Object>(attributeNames.size());
+    instanceAttributes = new Vector<Comparable>(attributeNames.size());
+    label = "?";
     
     int counter = 0;
     for (String s : attributeNames) {
@@ -16,35 +17,37 @@ class Instance {
     }
   }
 
-  public Object get(String attributeName) {
-    return instanceAttributes.get(attributeIndices(attributeName));
+  public Vector getList() { return instanceAttributes; }
+
+  public Comparable get(String attributeName) {
+    return instanceAttributes.get(attributeIndices.get(attributeName));
   }
 
-  public void add(Object attrVal) {
-    instanceAttributes.add(attrVal);
+  public void set(String attributeName, Comparable val) {
+    instanceAttributes.set(attributeIndices.get(attributeName), val);
   }
 
   public void setLabel(String label) { this.label = label; }
 
-  public String getLabel { return this.label; }
+  public String getLabel() { return this.label; }
 }
 
 class InstanceSet {
   private Vector<Instance> instanceList;
   private Vector<String> attributeNames;
-  private Map<String, Vector<String>> nomina;
 
   public InstanceSet(Vector<String> attributeNames) {
     this.attributeNames = attributeNames;
     instanceList = new Vector<Instance>(attributeNames.size());
-    nomina = new HashMap<String, Vector<>>();
   }
 
   public void addInstance(Instance instance) {
     instanceList.add(instance);
   }
 
-  public Map<String, Vector<String>> getNomina() {
-    return nomina;
+  public int size() { return instanceList.size(); }
+
+  public Instance get(int k) {
+    return instanceList.get(k);
   }
 }
