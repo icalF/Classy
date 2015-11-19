@@ -21,7 +21,7 @@ public class naivebayes {
 		static Integer banyakberbeda = 0;
 		static Integer banyakclass = 0;
 		static attribut[] aarrayattribut = new attribut[(mainkolom-1)];
-			
+
 		public static Integer jumlahnilaiatributyangbeda(Integer kolom) {
 				banyakberbeda = 1;
 				String[] arraykelas = new String[mainbaris];
@@ -48,7 +48,7 @@ public class naivebayes {
 					}
 				return banyakberbeda;
 			}
-		
+
 		public static void makeclassarray() {
 				banyakclass = 1;
 				classattribut[] arraykelass = new classattribut[jumlahnilaiatributyangbeda(mainkolom-1)];
@@ -78,9 +78,13 @@ public class naivebayes {
 				for(i = 1;i < banyakclass;i++) {
 						arraykelass[i].totalvalue += 1;
 					}
+
+					for(i = 0 ; i< banyakclass; i++) {
+						arraykelass[i].peluang= (arraykelass[i].totalvalue)/mainbaris;
+					}
 				classyangdiproses = arraykelass;
 			}
-		
+
 		public static Integer getindexclass(String val) {
 				Integer i = 0;
 				for(i = 0;i < banyakclass;i++) {
@@ -90,7 +94,7 @@ public class naivebayes {
 					}
 				return i;
 			}
-		
+
 		public static Integer getindexatr(Integer kolom, String val) {
 				Integer i = 0;
 				for(i = 0;i < aarrayattribut[kolom].values;i++) {
@@ -100,7 +104,7 @@ public class naivebayes {
 					}
 				return i;
 			}
-			
+
 		static class attribut {
 				public Integer values;
 				public namaattribut[] valuepoint;
@@ -109,16 +113,18 @@ public class naivebayes {
 						valuepoint = new namaattribut[val];
 					}
 			}
-		
+
 		static class classattribut {
+				public Double peluang;
 				public String nama;
-				public Integer totalvalue;
+				public Double totalvalue;
 				public classattribut(String val) {
 						nama = val;
-						totalvalue = 0;
+						totalvalue = 0.0;
+						peluang = 0.0;
 					}
 			}
-			
+
 		static class namaattribut {
 				public String nama;
 				public Double[] classcount;
@@ -131,9 +137,9 @@ public class naivebayes {
 							}
 					}
 			}
-		
-		
-				
+
+
+
 		public static attribut[] arrayatributyangbeda() {
 				Integer z = 0;
 				makeclassarray();
@@ -159,7 +165,7 @@ public class naivebayes {
 											}
 										else{
 												checker = 1;
-											}		
+											}
 									}
 								if(checker == 1) {
 										banyakberbedas++;
@@ -170,9 +176,9 @@ public class naivebayes {
 								arrayattribut[z].valuepoint[banyakberbedas-1].classcount[x] = ((arrayattribut[z].valuepoint[banyakberbedas-1].classcount[x]) + (1));
 							}
 					}
-				return arrayattribut;		
-			}	
-		
+				return arrayattribut;
+			}
+
 		public static attribut[] makepeluang() {
 				attribut[] arrayattributs = new attribut[mainkolom-1];
 				arrayattributs = arrayatributyangbeda();
@@ -189,18 +195,21 @@ public class naivebayes {
 				aarrayattribut = arrayattributs;
 				return arrayattributs;
 			}
-		
+
 		public static Double Getpeluang(Integer kolom, String val, String cls) {
 				Double hasil = 0.0;
 				hasil = aarrayattribut[kolom].valuepoint[getindexatr(kolom,val)].classcount[getindexclass(cls)];
 				return hasil;
-			}
-						
+		}
+
 		public static void main(String[] args) {
 				makeclassarray();
 				attribut[] arrayattributss = new attribut[mainkolom-1];
 				arrayattributss = makepeluang();
-				Integer i = 0;
+
+				Scanner in = new Scanner(System.in);
+
+				/*Integer i = 0;
 				Integer j = 0;
 				Integer k = 0;
 				for(i = 0;i < jumlahnilaiatributyangbeda(mainkolom-1);i++){
@@ -212,5 +221,61 @@ public class naivebayes {
 							}
 						System.out.println("\n");
 					}
+*/
+			String [] atr = new String[6];
+			String [] class_car = new String [4];
+			Double [] probs = new Double[6];
+
+			System.out.print("Buying: ");
+			atr[0] = in.nextLine();
+			System.out.print("Maint: ");
+			atr[1] = in.nextLine();
+			System.out.print("Doors: ");
+			atr[2] = in.nextLine();
+			System.out.print("Persons: ");
+			atr[3] = in.nextLine();
+			System.out.print("Safety: ");
+			atr[4] = in.nextLine();
+			System.out.print("Lug boot: ");
+			atr[5] = in.nextLine();
+
+			class_car[0]="unacc";
+			class_car[1]="acc";
+			class_car[2]="good";
+			class_car[3]="vgood";
+
+			for (int x=0; x<4; x++){
+				probs[x] = classyangdiproses[getindexclass(class_car[x])].peluang;
+				for (int y=0; y<6; y++){
+					probs[x]*=Getpeluang(y,atr[y],class_car[x]);
+				}
+			}
+
+			Double max=probs[0];
+			Integer nMax=1;
+			Integer iMax=0;
+
+			for(int x=1; x<4; x++){
+				if(probs[x]>max){
+					max=probs[x];
+					iMax=x;
+					nMax=0;
+				} else {
+					if(max==probs[x]){
+						nMax++;
+					}
+				}
+			}
+
+			System.out.println("===Each class probability for the data test=== ");
+			for(int x=0; x<4; x++){
+				System.out.println(class_car[x]+": "+probs[x]);
+			}
+
+			if(nMax>1){
+				System.out.println("The data test is unclassified");
+			} else {
+				System.out.println("The data test is classified as : "+ class_car[iMax]);
 			}
 	}
+}
