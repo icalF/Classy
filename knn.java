@@ -1,7 +1,12 @@
 import java.util.*;
 import java.lang.*;
-// import 
 
+/**
+ * Class Knn
+ * k Nearest Neighbourhood classifier
+ *
+ * @author Afrizal Fikri
+ */
 class Knn extends Classifier 
 {
   InstanceSet trainSet;
@@ -9,13 +14,31 @@ class Knn extends Classifier
 
   public Knn(int k) { this.k = k; }
 
+  /**
+   * Initialize kNN
+   */
   public void init() {
   }
 
+  /**
+   * Add new instances to saved train set before
+   * Or create new if doesnt exist
+   * @param trainSet
+   */
   public void train(InstanceSet trainSet) {
-    this.trainSet = trainSet;
+    if (trainSet == null) {
+      this.trainSet = trainSet;
+    } else {
+      for(int i = 0; i < trainSet.size(); ++i)
+        this.trainSet.add(trainSet.get(i));
+    }
   }
 
+  /**
+   * Do classifying by given train set
+   * @param  instance
+   * @return string class
+   */
   public String classify(Instance instance) {
     Vector<Integer> dist = new Vector<>();
     Vector<String> label = new Vector<>();
@@ -43,6 +66,12 @@ class Knn extends Classifier
                           ).getKey();
   }
 
+  /**
+   * HammingDistance of two instance
+   * @param  a
+   * @param  b
+   * @return integer distance
+   */
   public int HammingDistance(Instance a, Instance b) {
     Vector<Comparable> l1, l2;
     l1 = a.getList();
@@ -58,5 +87,40 @@ class Knn extends Classifier
         dist++;
 
     return dist;
+  }
+
+  /**
+   * Do cross validation
+   * Fold must be larger than data train size
+   * @param  fold
+   * @return accuracy
+   */
+  public double crossValidate(int fold) {
+    int n = trainSet.size();
+    Vector<Instance> list = trainSet.getList();
+    InstanceSet asli = trainSet;
+    double maxi = n;
+    int d = n / fold;
+
+    for (int l = 0, r = d; l < n; l += d, r += d) 
+    {
+      InstanceSet tempSet = new InstanceSet(trainSet.getAttributes());
+
+      for(int i = 0; i < n; ++i) {
+        if (i >= l && i < r) continue;
+        tempSet.add(trainSet.get(i));
+      }
+
+      trainSet = tempSet;
+      int counter = 0;
+      for(int i = l; i < r; ++i) {
+        Instance cur = asli.get(i);
+        if (classify(cur) != cur.getLabel()) counter++;
+      }
+
+      if (counter < maxi) maxi = counter;
+    }
+
+    return maxi / d;
   }
 } 
