@@ -121,6 +121,7 @@ class Knn extends Classifier
       if (counter < maxi) maxi = counter;
     }
 
+    trainSet = asli;
     return maxi / d;
   }
 } 
