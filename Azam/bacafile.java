@@ -9,10 +9,10 @@ public class bacafile {
 				String accumulator = "";
 				while (equation.length() != 0) {
 						if (equation.length() == 0) {
-								tokens.addElement(new String(accumulator));  
+								tokens.addElement(new String(accumulator));
 								break;
 							}
-						switch (equation.charAt(0)) { 			
+						switch (equation.charAt(0)) {
 								case ',': {
 										if(accumulator.length() != 0) {
 												tokens.addElement(new String(accumulator));
@@ -33,7 +33,7 @@ public class bacafile {
 					}
 				return(tokens);
 			}
-		
+
 		public static Vector<String> baca() {
 				BufferedReader br = null;
 				Integer i = 0;
@@ -50,7 +50,7 @@ public class bacafile {
 					}
 				return result;
 			}
-	
+
 		public static String[][] BacaString () {
 				Vector<String> keluaran = new Vector<String>();
 				keluaran = baca();
@@ -68,7 +68,7 @@ public class bacafile {
 					}
 				return graphII;
 			}
-		
+
 		public static void main(String[] args) {
 				Vector<String> keluarand = bacafile.baca();
 				Vector<String> hasilparsesd = bacafile.Parse(keluarand.elementAt(0));
@@ -77,11 +77,12 @@ public class bacafile {
 				String[][] mainmatrik = bacafile.BacaString();
 				Integer i = 0;
 				Integer j = 0;
+				System.out.println("buying, maint, drs, prsn, l_boot, sfty\n");
 				for(i = 0;i < 10;i++) {
 						for(j = 0;j < mainkolom;j++){
-								System.out.println(mainmatrik[i][j]+",");
+								System.out.print(mainmatrik[i][j]+", ");
 							}
-						System.out.println("\n");
+							System.out.println("\n");
 					}
 			}
-	}	
+	}
