@@ -209,19 +209,6 @@ public class naivebayes {
 
 				Scanner in = new Scanner(System.in);
 
-				/*Integer i = 0;
-				Integer j = 0;
-				Integer k = 0;
-				for(i = 0;i < jumlahnilaiatributyangbeda(mainkolom-1);i++){
-						for(j = 0;j < arrayattributss[i].values;j++){
-								System.out.println(i+" "+arrayattributss[i].valuepoint[j].nama);
-								for(k = 0;k < banyakclass;k++) {
-										System.out.println(arrayattributss[i].valuepoint[j].classcount[k]);
-									}
-							}
-						System.out.println("\n");
-					}
-*/
 			String [] atr = new String[6];
 			String [] class_car = new String [4];
 			Double [] probs = new Double[6];
