@@ -1,5 +1,10 @@
+package Classifier;
+
 import java.util.*;
 import java.lang.*;
+
+import Utils.Instance;
+import Utils.InstanceSet;
 
 /**
  * Class Knn

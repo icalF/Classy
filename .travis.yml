@@ -1,0 +1,35 @@
+language: java
+sudo: false
+
+before_cache:
+  # Do not cache a few Gradle files/directories (see https://docs.travis-ci.com/user/languages/java/#Caching)
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+  # Gradle dependencies
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+
+install:
+- chmod +x gradlew
+- ./gradlew dependencies
+
+script:
+- ./gradlew test
+
+before_deploy:
+- ./gradlew jar
+
+deploy:
+  provider: releases
+  file: build/libs/CalculatorOOP-1.0.jar
+  skip_cleanup: true
+
+  on:
+    repo: icalF/CalculatorOOP
+    tags: true
+    jdk: oraclejdk8
+  api_key:
+secure: "$GH_API_KEY"

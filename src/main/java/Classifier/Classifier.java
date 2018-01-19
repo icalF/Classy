@@ -1,3 +1,8 @@
+package Classifier;
+
+import Utils.Instance;
+import Utils.InstanceSet;
+
 /**
  * Abstract class classifier
  *

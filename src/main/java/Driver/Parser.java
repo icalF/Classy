@@ -1,9 +1,10 @@
-package ai;
+package Driver;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+
 public class Parser {
 		public static Vector<String> Parse(String equation) {
 				Vector<String> tokens = new Vector<String>();
