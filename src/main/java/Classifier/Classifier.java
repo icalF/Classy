@@ -1,14 +1,14 @@
 package Classifier;
 
-import Utils.Instance;
-import Utils.InstanceSet;
+import Instance.Instance;
+import Instance.InstanceSet;
 
 /**
  * Abstract class classifier
  *
  * @author Afrizal Fikri
  */
-abstract class Classifier {
+public abstract class Classifier {
   /**
    * Initialize
    */

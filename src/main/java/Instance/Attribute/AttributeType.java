@@ -1,15 +1,15 @@
-package Utils;
+package Instance.Attribute;
 
 import java.util.*;
 import java.lang.*;
 
 /**
- * Class attribute-type
+ * Enum attribute-type
  * 
  * @author Afrizal Fikri
  */
 public enum AttributeType {
-    STRING,
-    NOMINAL,
-    NUMERIC
+  STRING,
+  NOMINAL,
+  NUMERIC
 }

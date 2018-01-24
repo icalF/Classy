@@ -3,8 +3,8 @@ package Classifier;
 import java.util.*;
 import java.lang.*;
 
-import Utils.Instance;
-import Utils.InstanceSet;
+import Instance.Instance;
+import Instance.InstanceSet;
 
 /**
  * Class Knn
@@ -12,8 +12,8 @@ import Utils.InstanceSet;
  *
  * @author Afrizal Fikri
  */
-class Knn extends Classifier 
-{
+class Knn extends Classifier {
+
   InstanceSet trainSet;
   int k;
 
@@ -22,14 +22,15 @@ class Knn extends Classifier
   /**
    * Initialize kNN
    */
-  public void init() {
-  }
+  @Override
+  public void init() { }
 
   /**
    * Add new instances to saved train set before
    * Or create new if doesnt exist
    * @param trainSet
    */
+  @Override
   public void train(InstanceSet trainSet) {
     if (trainSet == null) {
       this.trainSet = trainSet;
@@ -44,6 +45,7 @@ class Knn extends Classifier
    * @param  instance
    * @return string class
    */
+  @Override
   public String classify(Instance instance) {
     Vector<Integer> dist = new Vector<>();
     Vector<String> label = new Vector<>();
@@ -100,6 +102,7 @@ class Knn extends Classifier
    * @param  fold
    * @return accuracy
    */
+  @Override
   public double crossValidate(int fold) {
     int n = trainSet.size();
     Vector<Instance> list = trainSet.getList();
