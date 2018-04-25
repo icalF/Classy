@@ -112,7 +112,7 @@ public class InstanceSet implements Collection<Instance>, Cloneable, RandomAcces
     }
 
     @Override
-    public Object[] toArray(Object[] objects) {
+    public <T> T[] toArray(T[] objects) {
         return instanceList.toArray(objects);
     }
 

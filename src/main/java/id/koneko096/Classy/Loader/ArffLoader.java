@@ -2,11 +2,9 @@ package id.koneko096.Classy.Loader;
 
 import id.koneko096.Classy.Data.InstanceSet;
 
-import java.util.Vector;
-
 public class ArffLoader implements BaseLoader {
     @Override
     public InstanceSet parseFile(String fileName) {
-        return new InstanceSet(new Vector<>());
+        return new InstanceSet(null);
     }
 }

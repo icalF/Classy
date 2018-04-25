@@ -7,16 +7,23 @@ package id.koneko096.Classy.Data;
  */
 public class Attribute<T> {
     private T value;
-    private AttributeType type;
-    private T[] members;
+    protected AttributeType type;
+
+    public Attribute(T value) {
+        this.value = value;
+    }
 
     public Attribute(Attribute<T> attr) {
         value = attr.value;
         type = attr.type;
-        members = attr.members.clone();
     }
 
     public String getStringType() {
         return type.getType().getName();
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
     }
 }

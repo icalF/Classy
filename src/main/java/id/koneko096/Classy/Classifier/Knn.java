@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import id.koneko096.Classy.Data.Attribute;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
 
@@ -67,9 +68,9 @@ class Knn implements BaseClassifier {
                         Collectors.counting()
                 ));
 
-        return counter.entrySet().stream().max(
-                (label1, label2) -> label1.getValue() > label2.getValue() ? 1 : -1
-                ).map(Map.Entry::getKey).get();
+        return counter.entrySet().stream().max((label1, label2)
+                        -> label1.getValue() > label2.getValue() ? 1 : -1)
+                .map(Map.Entry::getKey).get();
     }
 
     /**
@@ -80,9 +81,12 @@ class Knn implements BaseClassifier {
      * @return integer distance
      */
     private int HammingDistance(Instance a, Instance b) {
-        a.getList()
-        return IntStream.range(0, a.size())
-                .mapToObj(i -> a.get(i) + b.get(i))
-                .collect(Collectors.toList());
+        List<Integer> la = a.stream().map(Attribute::hashCode).sorted().collect(Collectors.toList());
+        List<Integer> lb = b.stream().map(Attribute::hashCode).sorted().collect(Collectors.toList());
+
+        return IntStream.range(0, la.size()).boxed()
+                .map(i -> !la.get(i).equals(lb.get(i)))
+                .mapToInt(bl -> (bl ? 1 : 0))
+                .sum();
     }
 } 
