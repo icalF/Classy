@@ -1,4 +1,4 @@
-package Data;
+package id.koneko096.Classy.Data;
 
 /**
  * Enum attribute-type

@@ -1,6 +1,6 @@
-package Utils.Loader;
+package id.koneko096.Classy.Loader;
 
-import Data.InstanceSet;
+import id.koneko096.Classy.Data.InstanceSet;
 
 import java.util.Vector;
 

@@ -1,7 +1,7 @@
-package Classifier;
+package id.koneko096.Classy.Classifier;
 
-import Data.Instance;
-import Data.InstanceSet;
+import id.koneko096.Classy.Data.Instance;
+import id.koneko096.Classy.Data.InstanceSet;
 
 /**
  * Interface classifier
@@ -29,12 +29,4 @@ public interface BaseClassifier {
      * @return class
      */
     String classify(Instance instance);
-
-    /**
-     * Do cross validation
-     *
-     * @param fold
-     * @return accuracy
-     */
-    double crossValidate(int fold);
 }
