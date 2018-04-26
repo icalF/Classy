@@ -38,11 +38,11 @@ public class NaiveBayes implements BaseClassifier {
         attrIdx = IntStream.range(0, attrVal.size()).boxed()
                 .collect(Collectors.toMap(attrVal::get, Function.identity()));
 
-        classVal = trainSet.getLabels().stream()
-                .distinct().map(String::new)
-                .collect(Collectors.toList());
-        classIdx = IntStream.range(0, classVal.size()).boxed()
-                .collect(Collectors.toMap(classVal::get, Function.identity()));
+//        classVal = trainSet.getLabels().stream()
+//                .distinct().map(String::new)
+//                .collect(Collectors.toList());
+//        classIdx = IntStream.range(0, classVal.size()).boxed()
+//                .collect(Collectors.toMap(classVal::get, Function.identity()));
     }
 
     @Override

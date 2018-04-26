@@ -7,6 +7,7 @@ package id.koneko096.Classy.Data;
  */
 public class Attribute<T> {
     private T value;
+    private String name;
     protected AttributeType type;
 
     public Attribute(T value) {
@@ -16,6 +17,10 @@ public class Attribute<T> {
     public Attribute(Attribute<T> attr) {
         value = attr.value;
         type = attr.type;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public String getStringType() {

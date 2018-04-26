@@ -13,6 +13,7 @@ import java.util.stream.Stream;
  */
 public class Instance implements Collection<Attribute> {
     private Map<String, Attribute> attributeMap;
+
     private List<Attribute> attributeList;
     private String label;
 
@@ -24,7 +25,7 @@ public class Instance implements Collection<Attribute> {
     public Instance(List<Attribute> attributes) {
         this.attributeList = new ArrayList<>(attributes);
         this.attributeMap = attributes.stream().collect(Collectors.toMap(
-                Attribute::getStringType,
+                Attribute::getName,
                 Function.identity()
         ));
         this.label = null;
@@ -39,7 +40,7 @@ public class Instance implements Collection<Attribute> {
     public Instance(List<Attribute> attributes, String label) {
         this.attributeList = new ArrayList<>(attributes);
         this.attributeMap = attributes.stream().collect(Collectors.toMap(
-                Attribute::getStringType,
+                Attribute::getName,
                 Function.identity()
         ));
         this.label = label;
@@ -53,6 +54,15 @@ public class Instance implements Collection<Attribute> {
      */
     public Attribute get(String attributeName) {
         return attributeMap.get(attributeName);
+    }
+
+    /**
+     * Getter attribute names
+     *
+     * @return attr names
+     */
+    public List<String> getAttributeNames() {
+        return attributeList.stream().map(Attribute::getName).collect(Collectors.toList());
     }
 
     /**

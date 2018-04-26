@@ -2,27 +2,28 @@ package id.koneko096.Classy.Data;
 
 import java.util.*;
 import java.lang.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Class instance-set
  *
  * @author Afrizal Fikri
  */
-public class InstanceSet implements Collection<Instance>, Cloneable, RandomAccess {
+public class InstanceSet implements Collection<Instance> {
     private List<Instance> instanceList;
     private List<String> attributeNames;
-    private List<String> labels;
 
     /**
      * Constructor
      *
-     * @param attributeNames
-     * @param labels
+     * @param instances
      */
-    public InstanceSet(List<String> attributeNames, List<String> labels) {
-        this.attributeNames = new ArrayList<>(attributeNames);
-        this.instanceList = new ArrayList<>();
-        this.labels = new ArrayList<>(labels);
+    public InstanceSet(List<Instance> instances) {
+        this.instanceList = new ArrayList<>(instances);
+        if (instances != null && instances.isEmpty()) {
+            this.attributeNames = new ArrayList<>(instances.get(0).getAttributeNames());
+        }
     }
 
     /**
@@ -33,8 +34,8 @@ public class InstanceSet implements Collection<Instance>, Cloneable, RandomAcces
     public InstanceSet(InstanceSet is) {
         this.attributeNames = new ArrayList<>(is.attributeNames);
         this.instanceList = new ArrayList<>(is.instanceList);
-        this.labels = new ArrayList<>(is.labels);
     }
+
 
     /**
      * Get list attribute names
@@ -46,12 +47,30 @@ public class InstanceSet implements Collection<Instance>, Cloneable, RandomAcces
     }
 
     /**
-     * Get all labels possible
+     * Split instances into number of folds
      *
-     * @return list labels
+     * @return split wrapper
      */
-    public List<String> getLabels() {
-        return labels;
+    public SplitReturnValue split(int fold) {
+        List<Instance> shuffled = new ArrayList<>(this.instanceList);
+        Collections.shuffle(shuffled);
+
+        Map<Integer, List<Instance>> groupedId = IntStream.range(0, shuffled.size())
+                .boxed()
+                .collect(Collectors.groupingBy(i -> i % fold,
+                        Collectors.mapping(shuffled::get, Collectors.toList())));
+
+        List<List<Instance>> testSets = IntStream.range(0, fold).boxed()
+                .map(groupedId::get).collect(Collectors.toList());
+        List<InstanceSet> trainSets = IntStream.range(0, fold).boxed()
+                .map(i -> {
+                    List<Instance> l = new ArrayList<>(shuffled);
+                    l.removeAll(groupedId.get(i));          // TODO: improve performance
+                    return new InstanceSet(l);
+                })
+                .collect(Collectors.toList());
+
+        return new SplitReturnValue(trainSets, testSets);
     }
 
 
