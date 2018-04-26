@@ -1,10 +1,10 @@
 package id.koneko096.Classy.Data;
 
 public class AttributeFactory {
-    public Attribute makeAttribute(String type, String value) {
-        switch (type) {
-            case "numeric":
-                return new NumericAttribute(Double.parseDouble(value));
+    public static Attribute makeAttribute(AttributeType type, String value, String name) {
+        switch (type.getType().getName()) {
+            case "java.lang.Double":
+                return new NumericAttribute(Double.parseDouble(value), name);
             default:
                 return null;
         }

@@ -18,7 +18,11 @@ public class InputReader {
     public String next() {
         while (tokenizer == null || !tokenizer.hasMoreTokens()) {
             try {
-                tokenizer = new StringTokenizer(reader.readLine());
+                String line = reader.readLine();
+                if (line == null)
+                    return null;
+
+                tokenizer = new StringTokenizer(line);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -62,10 +62,11 @@ public class ClassificationRunner {
         List<String> classifiedClass = instanceList.stream()
                 .map(this.classifier::classify)
                 .collect(Collectors.toList());
-        return IntStream.range(0, instanceList.size()).boxed()
+        double ret= IntStream.range(0, instanceList.size()).boxed()
                 .collect(Collectors.averagingDouble(i ->
                         instanceList.get(i).getLabel().equals(
                                 classifiedClass.get(i)) ? 1.0 : 0.0
                 ));
+        return ret;
     }
 }
