@@ -16,7 +16,7 @@ import id.koneko096.Classy.Data.InstanceSet;
  *
  * @author Afrizal Fikri
  */
-class Knn implements BaseClassifier {
+public class Knn implements BaseClassifier {
 
     private InstanceSet trainSet;
     private int k;
