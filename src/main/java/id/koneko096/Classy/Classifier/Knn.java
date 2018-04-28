@@ -6,10 +6,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import id.koneko096.Classy.Data.Attribute;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
-import id.koneko096.Classy.Data.NumericAttribute;
+import id.koneko096.Classy.Util.DistanceCalculator;
 
 /**
  * Class Knn
@@ -17,7 +16,7 @@ import id.koneko096.Classy.Data.NumericAttribute;
  *
  * @author Afrizal Fikri
  */
-public class Knn implements BaseClassifier {
+public class Knn extends BaseClassifier {
 
     private InstanceSet trainSet;
     private int k;
@@ -53,7 +52,7 @@ public class Knn implements BaseClassifier {
     @Override
     public String classify(Instance instance) {
         List<Double> dist = trainSet.stream()
-                .map(i -> Knn.EuclideanDistance(i, instance))
+                .map(i -> DistanceCalculator.EuclideanDistance(i, instance))
                 .collect(Collectors.toList());
         List<String> label = trainSet.stream()
                 .map(Instance::getLabel)
@@ -74,48 +73,4 @@ public class Knn implements BaseClassifier {
                 .map(Map.Entry::getKey).get();
     }
 
-    private static double Square(double x) {
-        return x * x;
-    }
-
-    /**
-     * EuclideanDistance of two instance
-     *
-     * @param a
-     * @param b
-     * @return integer distance
-     */
-    private static double EuclideanDistance(Instance a, Instance b) {
-        //TODO
-        List<Double> la = Knn.convertToListOfDouble(a);
-        List<Double> lb = Knn.convertToListOfDouble(b);
-
-        return Math.sqrt(IntStream.range(0, la.size()).boxed()
-                .mapToDouble(i -> Knn.Square(la.get(i) - lb.get(i)))
-                .sum());
-    }
-    private static List<Double> convertToListOfDouble(Instance x) {
-        return x.stream().map(i -> (Double)i.getValue()).collect(Collectors.toList());
-    }
-
-    /**
-     * HammingDistance of two instance
-     *
-     * @param a
-     * @param b
-     * @return integer distance
-     */
-    private static int HammingDistance(Instance a, Instance b) {
-        //TODO
-        List<Integer> la = convertToListOfInteger(a);
-        List<Integer> lb = convertToListOfInteger(b);
-
-        return IntStream.range(0, la.size()).boxed()
-                .map(i -> !la.get(i).equals(lb.get(i)))
-                .mapToInt(bl -> (bl ? 1 : 0))
-                .sum();
-    }
-    private static List<Integer> convertToListOfInteger(Instance x) {
-        return x.stream().map(Attribute::hashCode).collect(Collectors.toList());
-    }
-} 
+}

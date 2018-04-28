@@ -51,7 +51,7 @@ public class InstanceSet implements Collection<Instance> {
      *
      * @return split wrapper
      */
-    public SplitReturnValue split(int fold) {
+    public CrossSplit split(int fold) {
         List<Instance> shuffled = new ArrayList<>(this.instanceList);
         Collections.shuffle(shuffled);
 
@@ -70,7 +70,7 @@ public class InstanceSet implements Collection<Instance> {
                 })
                 .collect(Collectors.toList());
 
-        return new SplitReturnValue(trainSets, testSets);
+        return new CrossSplit(trainSets, testSets);
     }
 
 

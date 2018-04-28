@@ -8,11 +8,11 @@ import id.koneko096.Classy.Data.InstanceSet;
  *
  * @author Afrizal Fikri
  */
-public interface BaseClassifier {
+public abstract class BaseClassifier implements Cloneable {
     /**
      * Initialize
      */
-    void init();
+    abstract public void init();
 
     /**
      * Do training by given dataset
@@ -20,7 +20,7 @@ public interface BaseClassifier {
      *
      * @param trainSet
      */
-    void train(InstanceSet trainSet);
+    abstract public void train(InstanceSet trainSet);
 
     /**
      * Do classifying by algorithm used
@@ -28,5 +28,18 @@ public interface BaseClassifier {
      * @param instance
      * @return class
      */
-    String classify(Instance instance);
+    abstract public String classify(Instance instance) throws ModelEmptyException;
+
+    public Object clone() {
+        BaseClassifier octClone;
+
+        try {
+            octClone = (BaseClassifier) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            octClone = null;
+        }
+
+        return octClone;
+    }
 }

@@ -9,7 +9,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class NaiveBayes implements BaseClassifier {
+public class NaiveBayes extends BaseClassifier {
 
     private List<String> attrVal;
     private Map<String, Integer> attrIdx;

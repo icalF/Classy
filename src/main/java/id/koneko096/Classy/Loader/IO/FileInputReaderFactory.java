@@ -1,14 +1,9 @@
 package id.koneko096.Classy.Loader.IO;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 
-public class FileInputReader {
-    private final InputReader inputReader;
-
-    public FileInputReader(String fileName) {
+public class FileInputReaderFactory {
+    public static InputReader make(String fileName) {
         InputReader inputReaderTemp;
         File initialFile = new File(fileName);
 
@@ -19,10 +14,7 @@ public class FileInputReader {
             inputReaderTemp = null;
             e.printStackTrace();
         }
-        this.inputReader = inputReaderTemp;
-    }
 
-    public String next() {
-        return inputReader.next();
+        return inputReaderTemp;
     }
 }
