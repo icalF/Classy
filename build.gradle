@@ -8,10 +8,13 @@
 
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
+apply plugin: 'application'
 
 version = '1.0'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+mainClassName = "id.koneko096.Classy.Main"
 
 jar {
     manifest {
