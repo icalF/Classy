@@ -18,17 +18,18 @@ install:
 
 script:
 - ./gradlew test
+- ./gradlew run
 
 before_deploy:
-- ./gradlew jar
+- ./gradlew assembleDist
 
 deploy:
   provider: releases
-  file: build/libs/CalculatorOOP-1.0.jar
+  file: build/libs/Classy-1.0.jar
   skip_cleanup: true
 
   on:
-    repo: icalF/CalculatorOOP
+    repo: koneko096/Classy
     tags: true
     jdk: oraclejdk8
   api_key:
