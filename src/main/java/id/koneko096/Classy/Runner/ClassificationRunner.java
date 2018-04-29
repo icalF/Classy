@@ -1,12 +1,11 @@
 package id.koneko096.Classy.Runner;
 
 import id.koneko096.Classy.Classifier.BaseClassifier;
-import id.koneko096.Classy.Classifier.ModelEmptyException;
+import id.koneko096.Classy.Data.CrossSplit;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
-import id.koneko096.Classy.Data.CrossSplit;
-import id.koneko096.Classy.Loader.BaseLoader;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -44,6 +43,11 @@ public class ClassificationRunner {
 
     public void train(InstanceSet trainSet) {
         this.classifier.train(trainSet);
+    }
+
+    public String classify(Instance instance) {
+        return new ClassificationUnit(this.classifier, null,
+                                      Collections.singletonList(instance)).run().get(0);
     }
 
     /**

@@ -1,7 +1,6 @@
 package id.koneko096.Classy.Data;
 
 import java.util.*;
-import java.lang.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -46,6 +45,8 @@ public class InstanceSet implements Collection<Instance> {
     public List<String> getAttributeNames() {
         return attributeNames;
     }
+
+    public Instance get(int index) { return instanceList.get(index); }
 
     /**
      * Split instances into number of folds

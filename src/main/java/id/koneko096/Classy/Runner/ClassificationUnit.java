@@ -37,7 +37,9 @@ public class ClassificationUnit {
     }
 
     public List<String> run() {
-        this.classifier.train(this.trainSet);
+        if (this.trainSet != null)
+            this.classifier.train(this.trainSet);
+
         return this.classify(this.testSet);
     }
 }

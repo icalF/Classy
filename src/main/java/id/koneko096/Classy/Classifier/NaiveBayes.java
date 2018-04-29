@@ -4,6 +4,8 @@ import id.koneko096.Classy.Data.Attribute;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
 
+import java.util.AbstractMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -15,10 +17,14 @@ public class NaiveBayes extends BaseClassifier {
     private List<Map<Attribute, Integer>> attrValIdx;
 
     private Map<String, Integer> classIdx;
+    private List<String> classVal;
 
     private int[][][] table;
     private int[] classCum;
-    private int[][] attrCum;
+    private int total = 0;
+
+    private double[] classProbs;
+    private double[][][] attrLikelihood;
 
     public NaiveBayes() {
 
@@ -28,26 +34,53 @@ public class NaiveBayes extends BaseClassifier {
     public void train(InstanceSet trainSet) {
         prepareTable(trainSet);
         fillTable(trainSet);
-        int x = 1;
+        fillLikelihoodTable();
+    }
+
+    private void fillLikelihoodTable() {
+        IntStream.range(0, this.classProbs.length)
+                 .forEach(i -> this.classProbs[i] = (double)this.classCum[i] / this.total);
+        IntStream.range(0, this.attrLikelihood.length)
+            .forEach(i -> IntStream.range(0, this.attrLikelihood[i].length)
+                .forEach(j -> IntStream.range(0, this.attrLikelihood[j].length)
+                    .forEach(k -> {
+                        if (this.classProbs[k] == 0)
+                            this.attrLikelihood[i][j][k] = 0.0;
+
+                        this.attrLikelihood[i][j][k] = this.table[i][j][k] / this.classProbs[k] / this.total;
+                    })
+                )
+            );
     }
 
     private void fillTable(InstanceSet trainSet) {
-        trainSet.stream().forEach(instance -> {
-            String label = instance.getLabel();
-            List<String> attrNames = instance.getAttributeNames();
-            int classId = this.classIdx.get(label);
+        Map<Integer, List<Instance>> grouped = trainSet.stream()
+                .collect(Collectors.groupingBy(instance -> {
+                    String label = instance.getLabel();
+                    return this.classIdx.get(label);
+                }));
 
-            IntStream.range(0, attrNames.size()).forEach(id -> {
-                    String attrName = attrNames.get(id);
-                    Attribute attr = instance.get(attrName);
-                    int attrIdx = this.attrValIdx.get(id).get(attr);
+        //TODO: improve performance
+        grouped.entrySet().stream().forEach(entry -> {
+            int classId = entry.getKey();
+            List<Instance> instances = entry.getValue();
 
-                    this.table[id][attrIdx][classId]++;
-                    this.attrCum[id][attrIdx]++;
+            instances.stream().forEach(instance -> {
+                List<String> attrNames = instance.getAttributeNames();
+
+                IntStream.range(0, attrNames.size()).forEach(id -> {
+                        String attrName = attrNames.get(id);
+                        Attribute attr = instance.get(attrName);
+                        int attrIdx = this.attrValIdx.get(id).get(attr);
+
+                        this.table[id][attrIdx][classId]++;
+                });
             });
-            this.classCum[classId]++;
+
+            this.classCum[classId] += instances.size();
         });
 
+        this.total = trainSet.size();
     }
 
     private void prepareTable(InstanceSet trainSet) {
@@ -64,22 +97,35 @@ public class NaiveBayes extends BaseClassifier {
                          .collect(Collectors.toMap(av::get, Function.identity())))
                 .collect(Collectors.toList());
 
-        List<String> classVal = trainSet.stream()
+        this.classVal = trainSet.stream()
                 .map(Instance::getLabel)
                 .sorted().distinct()
                 .collect(Collectors.toList());
-        this.classIdx = IntStream.range(0, classVal.size()).boxed()
-                .collect(Collectors.toMap(classVal::get, Function.identity()));
+        this.classIdx = IntStream.range(0, this.classVal.size()).boxed()
+                .collect(Collectors.toMap(this.classVal::get, Function.identity()));
 
         int maxSize = attrVal.stream().map(List::size).max(Integer::compareTo).orElse(0);
 
-        this.table = new int[attrVal.size()][maxSize][classVal.size()];
-        this.attrCum = new int[attrVal.size()][maxSize];
-        this.classCum = new int [classVal.size()];
+        this.table = new int[attrVal.size()][maxSize][this.classVal.size()];
+        this.classCum = new int[this.classVal.size()];
+
+        this.classProbs = new double[this.classVal.size()];
+        this.attrLikelihood = new double[attrVal.size()][maxSize][this.classVal.size()];
     }
 
     @Override
     public String classify(Instance instance) {
-        return null;
+        List<Map.Entry<Double, Integer>> x = IntStream.range(0, this.classProbs.length).boxed().map(k -> {
+            double classLikelihood = IntStream.range(0, this.attrValIdx.size()).boxed().map(i -> {
+                String attrName = instance.getAttributeNames().get(i);
+                Attribute attr = instance.get(attrName);
+                int j = this.attrValIdx.get(i).get(attr);
+                return this.attrLikelihood[i][j][k];
+            }).reduce(1.0, (a, b) -> a * b);
+            return new AbstractMap.SimpleEntry<>(-classLikelihood, k);
+        }).sorted(Comparator.comparing(Map.Entry::getKey))
+        .collect(Collectors.toList());
+
+        return x.isEmpty() ? null : this.classVal.get(x.get(0).getValue());
     }
 }

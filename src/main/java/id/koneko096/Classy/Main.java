@@ -15,15 +15,20 @@ import java.io.PrintStream;
 public class Main {
     public static void main(String[] args) {
         PrintStream out = System.out;
-
-        BaseClassifier classifier = new NaiveBayes();
-        ClassificationRunner runner = new ClassificationRunner(classifier);
-
         BaseLoader loader = new CsvLoader();
+
+        BaseClassifier knn = new KNearestNeighbor(8);
+        ClassificationRunner knnRunner = new ClassificationRunner(knn);
+        loader.loadInput(FileInputReaderFactory.make("data/glass/glass.csv"));
+
+        InstanceSet glassDataset = InstanceSetFactory.make(loader);
+        out.println(String.format("KNN: %f", knnRunner.crossValidate(glassDataset, 10)));
+
+        BaseClassifier nb = new NaiveBayes();
+        ClassificationRunner nbRunner = new ClassificationRunner(nb);
         loader.loadInput(FileInputReaderFactory.make("data/car/car.csv"));
 
-        InstanceSet dataset = InstanceSetFactory.make(loader);
-        runner.train(dataset);
-//        out.println(String.format("KNN: %f", runner.crossValidate(dataset, 10)));
+        InstanceSet carDataset = InstanceSetFactory.make(loader);
+        out.println(String.format("NB: %f", nbRunner.crossValidate(carDataset, 10)));
     }
 }
