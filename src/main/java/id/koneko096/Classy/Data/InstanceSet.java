@@ -13,6 +13,7 @@ import java.util.stream.IntStream;
 public class InstanceSet implements Collection<Instance> {
     private List<Instance> instanceList;
     private List<String> attributeNames;
+    private Map<String, List<String>> attributeCandidates;
 
     /**
      * Constructor
@@ -21,7 +22,7 @@ public class InstanceSet implements Collection<Instance> {
      */
     public InstanceSet(List<Instance> instances) {
         this.instanceList = new ArrayList<>(instances);
-        if (instances != null && instances.isEmpty()) {
+        if (!instances.isEmpty()) {
             this.attributeNames = new ArrayList<>(instances.get(0).getAttributeNames());
         }
     }

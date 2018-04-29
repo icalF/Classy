@@ -1,5 +1,6 @@
 package id.koneko096.Classy.Loader;
 
+import id.koneko096.Classy.Data.Header;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Loader.IO.InputReader;
 
@@ -14,12 +15,12 @@ public class ArffLoader implements BaseLoader {
     }
 
     @Override
-    public List<String> loadHeader() {
+    public Header loadHeader() {
         return null;
     }
 
     @Override
-    public List<Instance> loadInstances(List<String> header) {
+    public List<Instance> loadInstances(Header header) {
         return null;
     }
 }

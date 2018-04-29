@@ -11,25 +11,18 @@ import id.koneko096.Classy.Data.InstanceSet;
 import id.koneko096.Classy.Util.DistanceCalculator;
 
 /**
- * Class Knn
+ * Class KNearestNeighbor
  * k Nearest Neighbourhood classifier
  *
  * @author Afrizal Fikri
  */
-public class Knn extends BaseClassifier {
+public class KNearestNeighbor extends BaseClassifier {
 
     private InstanceSet trainSet;
     private int k;
 
-    public Knn(int k) {
+    public KNearestNeighbor(int k) {
         this.k = k;
-    }
-
-    /**
-     * Initialize kNN
-     */
-    @Override
-    public void init() {
     }
 
     /**
@@ -70,7 +63,7 @@ public class Knn extends BaseClassifier {
 
         return counter.entrySet().stream().max((label1, label2)
                         -> label1.getValue() > label2.getValue() ? 1 : -1)
-                .map(Map.Entry::getKey).get();
+                .map(Map.Entry::getKey).orElse(null);
     }
 
 }

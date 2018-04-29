@@ -35,6 +35,26 @@ public class Attribute<T> implements Comparable<Attribute<T>> {
     }
 
     @Override
+    public boolean equals(Object o) {
+        // If the object is compared with itself then return true
+        if (o == this) {
+            return true;
+        }
+
+        /* Check if o is an instance of Complex or not
+          "null instanceof [type]" also returns false */
+        if (!(o instanceof Attribute)) {
+            return false;
+        }
+
+        // typecast o to Complex so that we can compare data members
+        Attribute a = (Attribute) o;
+
+        // Compare the data members and return accordingly
+        return name.equals(a.name) && type.equals(a.type) && value.equals(a.value);
+    }
+
+    @Override
     public int hashCode() {
         return value.hashCode();
     }

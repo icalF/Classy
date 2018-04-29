@@ -19,15 +19,24 @@ public class CsvLoader implements BaseLoader {
     }
 
     @Override
-    public List<String> loadHeader() {
-        String header = input.next();
-        String[] ar = header.split(CsvLoader.COMMA);
-        return Arrays.asList(ar).subList(0, ar.length-1);
+    public Header loadHeader() {
+        String attributeNamesStr = input.next();
+        String[] x = attributeNamesStr.split(CsvLoader.COMMA);
+        //TODO: NAMING
+        List<String> ar = Arrays.asList(x);
+
+        String attributeTypesStr = input.next();
+        x = attributeTypesStr.split(CsvLoader.COMMA);
+        List<String> ax = Arrays.asList(x);
+
+        return new Header(ar, ax);
     }
 
     @Override
-    public List<Instance> loadInstances(List<String> header) {
+    public List<Instance> loadInstances(Header header) {
         List<Instance> instances = new ArrayList<>();
+        List<String> attrNames = header.getAttributeNames();
+        List<Class> attrTypes = header.getAttributeTypes();
 
         do {
             String line = input.next();
@@ -40,9 +49,9 @@ public class CsvLoader implements BaseLoader {
 
             List<Attribute> attributeList = IntStream.range(0, attrList.size()).boxed()
                     .map(i -> AttributeFactory.make(
-                            AttributeType.NUMERIC,
+                            attrTypes.get(i),
                             attrList.get(i),
-                            header.get(i)))
+                            attrNames.get(i)))
                     .collect(Collectors.toList());
 
             instances.add(new Instance(attributeList, label));

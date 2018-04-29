@@ -1,8 +1,8 @@
 package id.koneko096.Classy.Data;
 
 public class NumericAttribute extends Attribute<Double> {
-    public NumericAttribute(double v, String name) {
-        super(v, name);
+    public NumericAttribute(double value, String name) {
+        super(value, name);
         this.type = AttributeType.NUMERIC;
     }
 

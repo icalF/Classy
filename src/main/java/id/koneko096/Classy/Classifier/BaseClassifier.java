@@ -9,10 +9,6 @@ import id.koneko096.Classy.Data.InstanceSet;
  * @author Afrizal Fikri
  */
 public abstract class BaseClassifier implements Cloneable {
-    /**
-     * Initialize
-     */
-    abstract public void init();
 
     /**
      * Do training by given dataset

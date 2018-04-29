@@ -1,7 +1,8 @@
 package id.koneko096.Classy;
 
 import id.koneko096.Classy.Classifier.BaseClassifier;
-import id.koneko096.Classy.Classifier.Knn;
+import id.koneko096.Classy.Classifier.KNearestNeighbor;
+import id.koneko096.Classy.Classifier.NaiveBayes;
 import id.koneko096.Classy.Data.InstanceSet;
 import id.koneko096.Classy.Data.InstanceSetFactory;
 import id.koneko096.Classy.Loader.BaseLoader;
@@ -15,13 +16,14 @@ public class Main {
     public static void main(String[] args) {
         PrintStream out = System.out;
 
-        BaseClassifier classifier = new Knn(5);
+        BaseClassifier classifier = new NaiveBayes();
         ClassificationRunner runner = new ClassificationRunner(classifier);
 
         BaseLoader loader = new CsvLoader();
-        loader.loadInput(FileInputReaderFactory.make("data/glass/glass.csv"));
+        loader.loadInput(FileInputReaderFactory.make("data/car/car.csv"));
 
         InstanceSet dataset = InstanceSetFactory.make(loader);
-        out.println(runner.crossValidate(dataset, 10));
+        runner.train(dataset);
+//        out.println(String.format("KNN: %f", runner.crossValidate(dataset, 10)));
     }
 }
