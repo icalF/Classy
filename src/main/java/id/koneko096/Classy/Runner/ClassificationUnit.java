@@ -4,22 +4,20 @@ import id.koneko096.Classy.Classifier.BaseClassifier;
 import id.koneko096.Classy.Classifier.ModelEmptyException;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
+@AllArgsConstructor
+@Builder
 public class ClassificationUnit {
     private final BaseClassifier classifier;
     private final InstanceSet trainSet;
     private final List<Instance> testSet;
-
-    public ClassificationUnit(BaseClassifier classifier,
-                              InstanceSet trainSet,
-                              List<Instance> testSet) {
-        this.classifier = classifier;
-        this.trainSet = trainSet;
-        this.testSet = testSet;
-    }
 
     private List<String> classify(List<Instance> instanceList) {
         return instanceList.stream()

@@ -31,6 +31,5 @@ deploy:
   on:
     repo: koneko096/Classy
     tags: true
-    jdk: oraclejdk8
   api_key:
 secure: "$GH_API_KEY"

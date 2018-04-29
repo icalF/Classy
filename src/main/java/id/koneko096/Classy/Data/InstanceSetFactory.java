@@ -7,8 +7,6 @@ import java.util.List;
 public class InstanceSetFactory {
     public static InstanceSet make(BaseLoader loader) {
         Header header = loader.loadHeader();
-        List<String> attributeNames = header.getAttributeNames();
-        List<Class> attributeTypes = header.getAttributeTypes();
         List<Instance> instances = loader.loadInstances(header);
         return new InstanceSet(instances);
     }

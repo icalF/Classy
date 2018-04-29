@@ -1,7 +1,9 @@
 package id.koneko096.Classy.Data;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
 import java.util.*;
-import java.lang.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -11,11 +13,12 @@ import java.util.stream.Stream;
  *
  * @author Afrizal Fikri
  */
+@EqualsAndHashCode
 public class Instance implements Collection<Attribute> {
     private Map<String, Attribute> attributeMap;
 
     private List<Attribute> attributeList;
-    private String label;
+    private @Getter String label;
 
     /**
      * Constructor
@@ -65,24 +68,6 @@ public class Instance implements Collection<Attribute> {
         return attributeList.stream().map(Attribute::getName).collect(Collectors.toList());
     }
 
-    /**
-     * Set the class label of current instance
-     *
-     * @param label
-     */
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    /**
-     * Set the class label of current instance
-     *
-     * @return label
-     */
-    public String getLabel() {
-        return this.label;
-    }
-
 
     @Override
     public int size() {
@@ -116,13 +101,13 @@ public class Instance implements Collection<Attribute> {
 
     @Override
     public boolean add(Attribute attribute) {
-        attributeMap.put(attribute.getStringType(), attribute);
+        attributeMap.put(attribute.getName(), attribute);
         return attributeList.add(attribute);
     }
 
     @Override
     public boolean remove(Object o) {
-        attributeMap.remove(((Attribute)o).getStringType());
+        attributeMap.remove(((Attribute)o).getName());
         return attributeList.remove(o);
     }
 
@@ -133,13 +118,13 @@ public class Instance implements Collection<Attribute> {
 
     @Override
     public boolean addAll(Collection<? extends Attribute> c) {
-        c.forEach(a -> attributeMap.put(a.getStringType(), a));
+        c.forEach(a -> attributeMap.put(a.getName(), a));
         return attributeList.addAll(c);
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        c.forEach(a -> attributeMap.remove(((Attribute<Object>)a).getStringType()));
+        c.forEach(a -> attributeMap.remove(((Attribute<Object>)a).getName()));
         return attributeList.removeAll(c);
     }
 
@@ -153,28 +138,6 @@ public class Instance implements Collection<Attribute> {
     public void clear() {
         attributeMap.clear();
         attributeList.clear();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        // If the object is compared with itself then return true
-        if (o == this) {
-            return true;
-        }
-
-        /* Check if o is an instance of Complex or not
-          "null instanceof [type]" also returns false */
-        if (!(o instanceof Instance)) {
-            return false;
-        }
-
-        // typecast o to Complex so that we can compare data members
-        Instance i = (Instance) o;
-
-        // Compare the data members and return accordingly
-        List<Attribute> il = i.attributeList.stream().sorted().collect(Collectors.toList());
-        List<Attribute> sl = this.attributeList.stream().sorted().collect(Collectors.toList());
-        return il.equals(sl);
     }
 
     @Override

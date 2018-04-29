@@ -1,5 +1,8 @@
 package id.koneko096.Classy.Data;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -9,9 +12,10 @@ import java.util.stream.IntStream;
  *
  * @author Afrizal Fikri
  */
+@EqualsAndHashCode
 public class InstanceSet implements Collection<Instance> {
     private List<Instance> instanceList;
-    private List<String> attributeNames;
+    private @Getter List<String> attributeNames;
     private Map<String, List<String>> attributeCandidates;
 
     /**
@@ -35,18 +39,6 @@ public class InstanceSet implements Collection<Instance> {
         this.attributeNames = new ArrayList<>(is.attributeNames);
         this.instanceList = new ArrayList<>(is.instanceList);
     }
-
-
-    /**
-     * Get list attribute names
-     *
-     * @return attribute names
-     */
-    public List<String> getAttributeNames() {
-        return attributeNames;
-    }
-
-    public Instance get(int index) { return instanceList.get(index); }
 
     /**
      * Split instances into number of folds
