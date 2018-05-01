@@ -15,16 +15,19 @@ import java.util.stream.IntStream;
 @EqualsAndHashCode
 public class InstanceSet implements Collection<Instance> {
     private List<Instance> instanceList;
+    private Header header;
     private @Getter List<String> attributeNames;
     private Map<String, List<String>> attributeCandidates;
 
     /**
      * Constructor
      *
+     * @param header
      * @param instances
      */
-    public InstanceSet(List<Instance> instances) {
+    public InstanceSet(Header header, List<Instance> instances) {
         this.instanceList = new ArrayList<>(instances);
+        this.header = header;
         if (!instances.isEmpty()) {
             this.attributeNames = new ArrayList<>(instances.get(0).getAttributeNames());
         }
@@ -38,6 +41,7 @@ public class InstanceSet implements Collection<Instance> {
     public InstanceSet(InstanceSet is) {
         this.attributeNames = new ArrayList<>(is.attributeNames);
         this.instanceList = new ArrayList<>(is.instanceList);
+        this.header = new Header(header);
     }
 
     /**
@@ -55,12 +59,13 @@ public class InstanceSet implements Collection<Instance> {
                         Collectors.mapping(shuffled::get, Collectors.toList())));
 
         List<List<Instance>> testSets = IntStream.range(0, fold).boxed()
-                .map(groupedId::get).collect(Collectors.toList());
+                .map(groupedId::get)
+                .collect(Collectors.toList());
         List<InstanceSet> trainSets = IntStream.range(0, fold).boxed()
                 .map(i -> {
                     List<Instance> l = new ArrayList<>(shuffled);
                     l.removeAll(groupedId.get(i));          // TODO: improve performance
-                    return new InstanceSet(l);
+                    return new InstanceSet(this.header, l);
                 })
                 .collect(Collectors.toList());
 

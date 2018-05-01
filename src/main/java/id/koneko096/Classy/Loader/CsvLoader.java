@@ -2,15 +2,13 @@ package id.koneko096.Classy.Loader;
 
 import id.koneko096.Classy.Data.*;
 import id.koneko096.Classy.Loader.IO.InputReader;
+import id.koneko096.Classy.Util.Constants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class CsvLoader implements BaseLoader {
-    private final static String COMMA = ",";
     private InputReader input;
 
     @Override
@@ -21,42 +19,28 @@ public class CsvLoader implements BaseLoader {
     @Override
     public Header loadHeader() {
         String attributeNamesStr = input.next();
-        String[] x = attributeNamesStr.split(CsvLoader.COMMA);
-        //TODO: NAMING
-        List<String> ar = Arrays.asList(x);
+        String[] attributeNamesStrs = attributeNamesStr.split(Constants.COMMA);
+
+        Map<String, List<String>> attributeNameMap = Arrays.stream(attributeNamesStrs)
+                .collect(Collectors.toMap(Function.identity(), x->Collections.EMPTY_LIST));
 
         String attributeTypesStr = input.next();
-        x = attributeTypesStr.split(CsvLoader.COMMA);
-        List<String> ax = Arrays.asList(x);
+        attributeNamesStrs = attributeTypesStr.split(Constants.COMMA);
+        List<String> attributeTypeList = Arrays.asList(attributeNamesStrs);
 
-        return new Header(ar, ax);
+        return new Header(attributeNameMap, attributeTypeList);
     }
 
     @Override
     public List<Instance> loadInstances(Header header) {
-        List<Instance> instances = new ArrayList<>();
-        List<String> attrNames = header.getAttributeNames();
-        List<Class> attrTypes = header.getAttributeTypes();
+        List<String> lines = new ArrayList<>();
 
         do {
             String line = input.next();
             if (line == null) break;
-
-            String[] attrs = line.split(CsvLoader.COMMA);
-
-            String label = attrs[attrs.length-1];
-            List<String> attrList = Arrays.asList(attrs).subList(0, attrs.length-1);
-
-            List<Attribute> attributeList = IntStream.range(0, attrList.size()).boxed()
-                    .map(i -> AttributeFactory.make(
-                            attrTypes.get(i),
-                            attrList.get(i),
-                            attrNames.get(i)))
-                    .collect(Collectors.toList());
-
-            instances.add(new Instance(attributeList, label));
+            lines.add(line);
         } while (true);
 
-        return instances;
+        return InstanceParser.parse(lines, header);
     }
 }

@@ -3,6 +3,7 @@ package id.koneko096.Classy.Classifier;
 import id.koneko096.Classy.Data.Attribute;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
+import id.koneko096.Classy.Data.StringAttribute;
 
 import java.util.AbstractMap;
 import java.util.Comparator;
@@ -14,7 +15,7 @@ import java.util.stream.IntStream;
 
 public class NaiveBayes extends BaseClassifier {
 
-    private List<Map<Attribute, Integer>> attrValIdx;
+    private List<Map<StringAttribute, Integer>> attrValIdx;
 
     private Map<String, Integer> classIdx;
     private List<String> classVal;
@@ -85,11 +86,12 @@ public class NaiveBayes extends BaseClassifier {
 
     private void prepareTable(InstanceSet trainSet) {
         int attrSz = trainSet.getAttributeNames().size();
-        List<List<Attribute>> attrVal = IntStream.range(0, attrSz).boxed()
+        List<List<StringAttribute>> attrVal = IntStream.range(0, attrSz).boxed()
                 .map(i -> {
                     String attrName = trainSet.getAttributeNames().get(i);
-                    return trainSet.stream().map(instance -> instance.get(attrName))
-                            .sorted().distinct()
+                    return trainSet.stream().map(instance -> ((StringAttribute)instance.get(attrName)))
+                            .sorted(Comparator.comparing(StringAttribute::getValue))
+                            .distinct()
                             .collect(Collectors.toList());
                 }).collect(Collectors.toList());
         this.attrValIdx = attrVal.stream()

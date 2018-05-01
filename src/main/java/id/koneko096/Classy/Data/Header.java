@@ -1,25 +1,33 @@
 package id.koneko096.Classy.Data;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Header {
-    private List<String> attributeNames;
+    private Map<String, List<String>> attributeCandidates;
     private List<Class> attributeTypes;
 
-    public Header(List<String> attributeNames, List<String> attributeTypesStr) {
-        this.attributeNames = attributeNames;
+    public Header(Map<String, List<String>> attributeCandidates, List<String> attributeTypesStr) {
+        this.attributeCandidates = attributeCandidates;
         this.attributeTypes = attributeTypesStr.stream()
                 .map(AttributeType::valueOf)
                 .map(AttributeType::getType)
                 .collect(Collectors.toList());
     }
 
+    public Header(Header header) {
+        this.attributeCandidates = new HashMap<>(header.attributeCandidates);
+        this.attributeTypes = new ArrayList<>(header.attributeTypes);
+    }
+
     public List<Class> getAttributeTypes() {
         return attributeTypes;
     }
 
-    public List<String> getAttributeNames() {
-        return attributeNames;
+    public Map<String, List<String>> getAttributeCandidates() {
+        return attributeCandidates;
     }
 }

@@ -9,10 +9,9 @@ import lombok.Getter;
  *
  * @author Afrizal Fikri
  */
-@EqualsAndHashCode
 @Getter
 @AllArgsConstructor
-public class Attribute<T> implements Comparable<Attribute<T>> {
+public class Attribute<T> {
     private T value;
     private String name;
     private AttributeType type;
@@ -21,10 +20,5 @@ public class Attribute<T> implements Comparable<Attribute<T>> {
         value = attr.value;
         type = attr.type;
         name = attr.name;
-    }
-
-    @Override
-    public int compareTo(Attribute<T> o) {
-        return Integer.compare(hashCode(), o.hashCode());
     }
 }

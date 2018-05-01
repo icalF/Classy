@@ -124,7 +124,7 @@ public class Instance implements Collection<Attribute> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        c.forEach(a -> attributeMap.remove(((Attribute<Object>)a).getName()));
+        c.forEach(a -> attributeMap.remove(((Attribute<? extends Comparable<?>>)a).getName()));
         return attributeList.removeAll(c);
     }
 
