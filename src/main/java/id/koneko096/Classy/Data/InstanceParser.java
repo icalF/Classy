@@ -2,7 +2,6 @@ package id.koneko096.Classy.Data;
 
 import id.koneko096.Classy.Util.Constants;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +10,7 @@ import java.util.stream.IntStream;
 public class InstanceParser {
     public static List<Instance> parse(List<String> lines, Header header) {
         List<Class> attrTypes = header.getAttributeTypes();
-        List<String> attrNames = new ArrayList<>(header.getAttributeCandidates().keySet());
+        List<String> attrNames = header.getAttributeNames();
 
         return lines.stream().map(line -> {
             String[] attrs = line.split(Constants.COMMA);

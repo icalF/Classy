@@ -1,7 +1,8 @@
 package id.koneko096.Classy.Data;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,26 +13,12 @@ import java.util.stream.IntStream;
  *
  * @author Afrizal Fikri
  */
+@AllArgsConstructor
+@Builder
 @EqualsAndHashCode
 public class InstanceSet implements Collection<Instance> {
     private List<Instance> instanceList;
     private Header header;
-    private @Getter List<String> attributeNames;
-    private Map<String, List<String>> attributeCandidates;
-
-    /**
-     * Constructor
-     *
-     * @param header
-     * @param instances
-     */
-    public InstanceSet(Header header, List<Instance> instances) {
-        this.instanceList = new ArrayList<>(instances);
-        this.header = header;
-        if (!instances.isEmpty()) {
-            this.attributeNames = new ArrayList<>(instances.get(0).getAttributeNames());
-        }
-    }
 
     /**
      * Copy cnstructor
@@ -39,7 +26,6 @@ public class InstanceSet implements Collection<Instance> {
      * @param is
      */
     public InstanceSet(InstanceSet is) {
-        this.attributeNames = new ArrayList<>(is.attributeNames);
         this.instanceList = new ArrayList<>(is.instanceList);
         this.header = new Header(header);
     }
@@ -63,15 +49,33 @@ public class InstanceSet implements Collection<Instance> {
                 .collect(Collectors.toList());
         List<InstanceSet> trainSets = IntStream.range(0, fold).boxed()
                 .map(i -> {
-                    List<Instance> l = new ArrayList<>(shuffled);
-                    l.removeAll(groupedId.get(i));          // TODO: improve performance
-                    return new InstanceSet(this.header, l);
+                    List<Instance> l = IntStream.range(0, fold).boxed()
+                            .filter(j -> !j.equals(i))
+                            .map(testSets::get)
+                            .flatMap(List::stream)
+                            .collect(Collectors.toList());
+                    return InstanceSet.builder()
+                            .header(this.header)
+                            .instanceList(l)
+                            .build();
                 })
                 .collect(Collectors.toList());
 
         return new CrossSplit(trainSets, testSets);
     }
 
+
+    public List<String> getAttributeNames() {
+        return header.getAttributeNames();
+    }
+
+    public Map<String, List<String>> getAttributeCandidates() {
+        return header.getAttributeCandidates();
+    }
+
+    public List<Class> getAttributeTypes() {
+        return header.getAttributeTypes();
+    }
 
 
     @Override

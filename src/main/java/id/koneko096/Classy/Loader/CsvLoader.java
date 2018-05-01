@@ -1,6 +1,9 @@
 package id.koneko096.Classy.Loader;
 
-import id.koneko096.Classy.Data.*;
+import id.koneko096.Classy.Data.AttributeType;
+import id.koneko096.Classy.Data.Header;
+import id.koneko096.Classy.Data.Instance;
+import id.koneko096.Classy.Data.InstanceParser;
 import id.koneko096.Classy.Loader.IO.InputReader;
 import id.koneko096.Classy.Util.Constants;
 
@@ -28,7 +31,14 @@ public class CsvLoader implements BaseLoader {
         attributeNamesStrs = attributeTypesStr.split(Constants.COMMA);
         List<String> attributeTypeList = Arrays.asList(attributeNamesStrs);
 
-        return new Header(attributeNameMap, attributeTypeList);
+        return Header.builder()
+                .attributeNames(new ArrayList<>(attributeNameMap.keySet()))
+                .attributeCandidates(attributeNameMap)
+                .attributeTypes(attributeTypeList.stream()
+                        .map(AttributeType::valueOf)
+                        .map(AttributeType::getType)
+                        .collect(Collectors.toList()))
+                .build();
     }
 
     @Override

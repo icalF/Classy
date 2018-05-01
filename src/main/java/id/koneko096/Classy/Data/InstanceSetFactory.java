@@ -8,6 +8,9 @@ public class InstanceSetFactory {
     public static InstanceSet make(BaseLoader loader) {
         Header header = loader.loadHeader();
         List<Instance> instances = loader.loadInstances(header);
-        return new InstanceSet(header, instances);
+        return InstanceSet.builder()
+                .instanceList(instances)
+                .header(header)
+                .build();
     }
 }

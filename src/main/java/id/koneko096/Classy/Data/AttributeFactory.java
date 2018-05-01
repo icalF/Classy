@@ -8,7 +8,7 @@ public class AttributeFactory {
             case "java.lang.String":
                 return new StringAttribute(value, name);
             default:
-                return null;
+                return new StringAttribute(value, name);
         }
     }
 }

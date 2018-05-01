@@ -1,13 +1,15 @@
 package id.koneko096.Classy.Loader;
 
-import id.koneko096.Classy.Data.*;
+import id.koneko096.Classy.Data.AttributeType;
+import id.koneko096.Classy.Data.Header;
+import id.koneko096.Classy.Data.Instance;
+import id.koneko096.Classy.Data.InstanceParser;
 import id.koneko096.Classy.Loader.IO.InputReader;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-import static id.koneko096.Classy.Util.Constants.ATTRIBUTE_SEGMENT;
-import static id.koneko096.Classy.Util.Constants.DATA_SEGMENT;
-import static id.koneko096.Classy.Util.Constants.DELIMITERS;
+import static id.koneko096.Classy.Util.Constants.*;
 
 public class ArffLoader implements BaseLoader {
     private InputReader input;
@@ -19,6 +21,7 @@ public class ArffLoader implements BaseLoader {
 
     @Override
     public Header loadHeader() {
+        List<String> attrNames = new ArrayList<>();
         Map<String, List<String>> attributes = new HashMap<>();
 
         String line = input.next();
@@ -35,19 +38,30 @@ public class ArffLoader implements BaseLoader {
             String attrCandidatesStr = attribute.substring(firstSpacePos + 1);
             List<String> attrCandidates = parseAttrCandidates(attrCandidatesStr);
 
-            attributes.put(attrName, attrCandidates);
+            if (!attrName.equals("class")) {
+                attributes.put(attrName, attrCandidates);
+                attrNames.add(attrName);
+            }
+
             line = input.next();
         }
 
-        List<String> attrTypesStr = new ArrayList<>(Collections.nCopies(attributes.size(), "NOMINAL"));
-        return new Header(attributes, attrTypesStr);
+        List<String> attrTypesStr = new ArrayList<>(Collections.nCopies(attributes.size(), "NOMINAL")); //  TODO: READ FROM FILE/CONFIG
+        return Header.builder()
+                .attributeNames(attrNames)
+                .attributeCandidates(attributes)
+                .attributeTypes(attrTypesStr.stream()
+                        .map(AttributeType::valueOf)
+                        .map(AttributeType::getType)
+                        .collect(Collectors.toList()))
+                .build();
     }
 
     private List<String> parseAttrCandidates(String attrCandidatesStr) {
         String trimmed = attrCandidatesStr.trim();
         String cleaned = trimmed.substring(1, trimmed.length()-1);
         String[] splitted = cleaned.split(DELIMITERS);
-        return Arrays.asList(splitted);
+        return Arrays.stream(splitted).filter(s -> s != null && !s.isEmpty()).collect(Collectors.toList());
     }
 
     @Override

@@ -18,7 +18,7 @@ public class Main {
         PrintStream out = System.out;
         BaseLoader csvLoader = new CsvLoader();
 
-        BaseClassifier knn = new KNearestNeighbor(8);
+        BaseClassifier knn = new KNearestNeighbor(5);
         ClassificationRunner knnRunner = new ClassificationRunner(knn);
         csvLoader.loadInput(FileInputReaderFactory.make("data/glass/glass.csv"));
 

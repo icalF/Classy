@@ -30,7 +30,7 @@ public class ClassificationRunner {
     }
 
     public String classify(Instance instance) {
-        return new ClassificationUnit.ClassificationUnitBuilder()
+        return ClassificationUnit.builder()
                 .classifier(this.classifier)
                 .trainSet(null)
                 .testSet(Collections.singletonList(instance))
