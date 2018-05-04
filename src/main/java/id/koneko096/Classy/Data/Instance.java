@@ -15,6 +15,8 @@ import java.util.stream.Stream;
  */
 @EqualsAndHashCode
 public class Instance implements Collection<Attribute> {
+    private @Getter
+    List<String> attributeNames;
     private Map<String, Attribute> attributeMap;
 
     private List<Attribute> attributeList;
@@ -27,6 +29,7 @@ public class Instance implements Collection<Attribute> {
      */
     public Instance(List<Attribute> attributes) {
         this.attributeList = new ArrayList<>(attributes);
+        this.attributeNames = attributes.stream().map(Attribute::getName).collect(Collectors.toList());
         this.attributeMap = attributes.stream().collect(Collectors.toMap(
                 Attribute::getName,
                 Function.identity()
@@ -42,6 +45,7 @@ public class Instance implements Collection<Attribute> {
      */
     public Instance(List<Attribute> attributes, String label) {
         this.attributeList = new ArrayList<>(attributes);
+        this.attributeNames = attributes.stream().map(Attribute::getName).collect(Collectors.toList());
         this.attributeMap = attributes.stream().collect(Collectors.toMap(
                 Attribute::getName,
                 Function.identity()
@@ -59,14 +63,6 @@ public class Instance implements Collection<Attribute> {
         return attributeMap.get(attributeName);
     }
 
-    /**
-     * Getter attribute names
-     *
-     * @return attr names
-     */
-    public List<String> getAttributeNames() {
-        return attributeList.stream().map(Attribute::getName).collect(Collectors.toList());
-    }
 
 
     @Override
@@ -124,7 +120,7 @@ public class Instance implements Collection<Attribute> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        c.forEach(a -> attributeMap.remove(((Attribute<Object>)a).getName()));
+        c.forEach(a -> attributeMap.remove(((Attribute<? extends Comparable<?>>)a).getName()));
         return attributeList.removeAll(c);
     }
 

@@ -1,5 +1,7 @@
 package id.koneko096.Classy.Loader.IO;
 
+import lombok.SneakyThrows;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,17 +17,19 @@ public class InputReader {
         tokenizer = null;
     }
 
+    @SneakyThrows
     public String next() {
-        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
-            try {
-                String line = reader.readLine();
-                if (line == null)
-                    return null;
+        return reader.readLine();
+    }
 
-                tokenizer = new StringTokenizer(line);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+    @SneakyThrows
+    public String nextToken() {
+        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+            String line = reader.readLine();
+            if (line == null)
+                return null;
+
+            tokenizer = new StringTokenizer(line);
         }
         return tokenizer.nextToken();
     }

@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 
 public class NaiveBayes extends BaseClassifier {
 
-    private List<Map<Attribute, Integer>> attrValIdx;
+    private List<Map<String, Integer>> attrValIdx;
 
     private Map<String, Integer> classIdx;
     private List<String> classVal;
@@ -61,17 +61,16 @@ public class NaiveBayes extends BaseClassifier {
                 }));
 
         //TODO: improve performance
+        List<String> attrNames = trainSet.getAttributeNames();
         grouped.entrySet().stream().forEach(entry -> {
             int classId = entry.getKey();
             List<Instance> instances = entry.getValue();
 
             instances.stream().forEach(instance -> {
-                List<String> attrNames = instance.getAttributeNames();
-
                 IntStream.range(0, attrNames.size()).forEach(id -> {
                         String attrName = attrNames.get(id);
                         Attribute attr = instance.get(attrName);
-                        int attrIdx = this.attrValIdx.get(id).get(attr);
+                    int attrIdx = this.attrValIdx.get(id).get(attr.getValue().toString());
 
                         this.table[id][attrIdx][classId]++;
                 });
@@ -84,14 +83,9 @@ public class NaiveBayes extends BaseClassifier {
     }
 
     private void prepareTable(InstanceSet trainSet) {
-        int attrSz = trainSet.getAttributeNames().size();
-        List<List<Attribute>> attrVal = IntStream.range(0, attrSz).boxed()
-                .map(i -> {
-                    String attrName = trainSet.getAttributeNames().get(i);
-                    return trainSet.stream().map(instance -> instance.get(attrName))
-                            .sorted().distinct()
-                            .collect(Collectors.toList());
-                }).collect(Collectors.toList());
+        List<List<String>> attrVal = trainSet.getAttributeNames().stream()
+                .map(trainSet.getAttributeCandidates()::get)
+                .collect(Collectors.toList());
         this.attrValIdx = attrVal.stream()
                 .map(av -> IntStream.range(0, av.size()).boxed()
                          .collect(Collectors.toMap(av::get, Function.identity())))
@@ -118,8 +112,8 @@ public class NaiveBayes extends BaseClassifier {
         List<Map.Entry<Double, Integer>> x = IntStream.range(0, this.classProbs.length).boxed().map(k -> {
             double classLikelihood = IntStream.range(0, this.attrValIdx.size()).boxed().map(i -> {
                 String attrName = instance.getAttributeNames().get(i);
-                Attribute attr = instance.get(attrName);
-                int j = this.attrValIdx.get(i).get(attr);
+                String attrVal = instance.get(attrName).getValue().toString();
+                int j = this.attrValIdx.get(i).get(attrVal);
                 return this.attrLikelihood[i][j][k];
             }).reduce(1.0, (a, b) -> a * b);
             return new AbstractMap.SimpleEntry<>(-classLikelihood, k);
