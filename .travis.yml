@@ -20,11 +20,11 @@ script:
 - ./gradlew test
 
 before_deploy:
-- ./gradlew assembleDist
+- ./gradlew jar
 
 deploy:
   provider: releases
-  file: build/libs/Classy-1.0.jar
+  file: build/libs/Classy-*.jar
   skip_cleanup: true
 
   on:
