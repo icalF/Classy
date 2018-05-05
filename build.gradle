@@ -22,6 +22,9 @@ jar {
         attributes 'Implementation-Title': 'Classy',
                    'Implementation-Version': version
     }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
