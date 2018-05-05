@@ -1,34 +1,25 @@
 language: java
 sudo: false
-
 before_cache:
-  # Do not cache a few Gradle files/directories (see https://docs.travis-ci.com/user/languages/java/#Caching)
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-  # Gradle dependencies
-  - $HOME/.gradle/caches/
-  - $HOME/.gradle/wrapper/
-
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 install:
 - chmod +x gradlew
-- ./gradlew dependencies
-
+- "./gradlew dependencies"
 script:
-- ./gradlew test
-
+- "./gradlew test"
 before_deploy:
-- ./gradlew jar
-
+- "./gradlew jar"
 deploy:
   provider: releases
-  file: build/libs/Classy-*.jar
   skip_cleanup: true
-
+  api_key:
+    secure: G5S42fGnMI0vjojJJCOicNMqBVZuYTulzvsi+9kcPtB9Dym5jaj3xAY4ofLcKbJFYL7efN4WYLIXbMWaogCTwXbiEyu9CJ3kQee/EfwjIp+EjHF6T/8bwRMYDf57eTiHCV4VjKHihNzom10VX3Rmx63j33FsFLTfkxDIarqXE7oSlr19WMl8HQAao/DIcsJowfEvDV7L1GI9CkaocEDcee199CH5IL1nMFAznXMe4ibovV9IcuLtBrfiMA4I6OMAAzsiUsRogESSR581/2ttSeplNw4g1trXAC59N4PEAHPTmZ3MFBcLDjW38JFt03h7baus4ZuR8pAPaRRvSIZk27xW+d9JaRiK4C1sgErU58+Yg1sbxKFz+u8RLLjw4YAXDJzCKphkS+d6mOXrgTKa7nzzSnEq/3BZFe4mNhw15wEEcljlpUKR89WOZ/rxhK5FGEfdccbV9SdcDOi/wpL1HNngXyg4zOhIBjHhVL6Yxc1Lz34Ih3VXvHAZSfmomOWLXxCcBVuLgsV8OG5BStBsKwPYEEAqsxArlFqcZfdwE+5F+oAD2TIWvt9r9HRaDDYHNN4r4gMcD9oLOBUuVmVML3IqKmrp43bj9otRbFFhkiBr8MlPpC+lg295Dd0ucpreicCzYic5nCZ7FyLery1ytzNUOljSAKcMSwX8uaXr7rA=
+  file: build/libs/Classy-*.jar
   on:
     repo: koneko096/Classy
     tags: true
-  api_key:
-secure: "$GH_API_KEY"
