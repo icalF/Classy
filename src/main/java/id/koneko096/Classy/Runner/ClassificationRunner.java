@@ -5,14 +5,15 @@ import id.koneko096.Classy.Data.CrossSplit;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@Getter @Setter
+@Slf4j
+@Getter
 public class ClassificationRunner {
     private BaseClassifier classifier;
 
@@ -23,6 +24,7 @@ public class ClassificationRunner {
      */
     public ClassificationRunner(BaseClassifier classifier) {
         this.classifier = classifier;
+        log.debug("Classification runner spawned with classifier:\n{}", classifier.showInfo());
     }
 
     public void train(InstanceSet trainSet) {
@@ -48,6 +50,8 @@ public class ClassificationRunner {
      * @return accuracy
      */
     public double crossValidate(InstanceSet trainSet, int fold) {
+        log.info("Performing cross validate with {} fold", fold);
+
         CrossSplit splitted = trainSet.split(fold);
         List<InstanceSet> trainSets = splitted.getTrainSets();
         List<List<Instance>> testSets = splitted.getTestSets();
@@ -69,16 +73,35 @@ public class ClassificationRunner {
                 .map(ClassificationUnit::run)
                 .collect(Collectors.toList());
 
-        return IntStream.range(0, splitted.size()).boxed()
+        double accuracyRate = IntStream.range(0, splitted.size()).boxed()
                 .collect(Collectors.averagingDouble(i -> validate(
                     expectedClasses.get(i),
                     actualClasses.get(i)
                 )));
+
+        log.debug("Cross validation accuracy rate: {} %", DelayedFormatter.format("%.02f", accuracyRate * 100));
+        return accuracyRate;
     }
 
     private double validate(List<String> expecteds, List<String> actuals) {
         return IntStream.range(0, expecteds.size()).boxed()
                     .collect(Collectors.averagingDouble(i ->
                         expecteds.get(i).equals(actuals.get(i)) ? 1.0 : 0.0 ));
+    }
+
+    static class DelayedFormatter{
+        String format;  Object[] args;
+
+        public DelayedFormatter(String format, Object... args){
+            this.format = format;  this.args = args;
+        }
+
+        public static DelayedFormatter format(String format, Object... args){
+            return new DelayedFormatter(format, args);
+        }
+
+        @Override public String toString(){
+            return String.format(format, args);
+        }
     }
 }

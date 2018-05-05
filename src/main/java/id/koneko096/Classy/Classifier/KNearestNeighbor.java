@@ -33,6 +33,7 @@ public class KNearestNeighbor extends BaseClassifier {
      */
     @Override
     public void train(InstanceSet trainSet) {
+        super.train(trainSet);
         this.trainSet = trainSet;
     }
 
@@ -66,4 +67,11 @@ public class KNearestNeighbor extends BaseClassifier {
                 .map(Map.Entry::getKey).orElse(null);
     }
 
+    @Override
+    public String showInfo() {
+        return "Classifier: K Nearest Neighbors\n" +
+                "Neighbor number: " +
+                this.k +
+                "\nDistance metric: Euclidean distance\n";
+    }
 }

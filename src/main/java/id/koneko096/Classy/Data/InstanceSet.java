@@ -3,6 +3,7 @@ package id.koneko096.Classy.Data;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ import java.util.stream.IntStream;
 public class InstanceSet implements Collection<Instance> {
     private List<Instance> instanceList;
     private Header header;
+    @Getter private String name;
 
     /**
      * Copy cnstructor
@@ -57,6 +59,7 @@ public class InstanceSet implements Collection<Instance> {
                     return InstanceSet.builder()
                             .header(this.header)
                             .instanceList(l)
+                            .name(this.name + " - fold " + i)
                             .build();
                 })
                 .collect(Collectors.toList());

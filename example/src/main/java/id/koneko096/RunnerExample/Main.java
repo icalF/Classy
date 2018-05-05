@@ -1,4 +1,4 @@
-package id.koneko096.Classy;
+package id.koneko096.RunnerExample;
 
 import id.koneko096.Classy.Classifier.BaseClassifier;
 import id.koneko096.Classy.Classifier.KNearestNeighbor;
@@ -18,11 +18,11 @@ public class Main {
         PrintStream out = System.out;
         BaseLoader csvLoader = new CsvLoader();
 
-        BaseClassifier knn = new KNearestNeighbor(5);
+        BaseClassifier knn = new KNearestNeighbor(4);
         ClassificationRunner knnRunner = new ClassificationRunner(knn);
         csvLoader.loadInput(FileInputReaderFactory.make("data/glass/glass.csv"));
 
-        InstanceSet glassDataset = InstanceSetFactory.make(csvLoader);
+        InstanceSet glassDataset = InstanceSetFactory.make(csvLoader, "glass dataset");
         out.println(String.format("KNN: %f", knnRunner.crossValidate(glassDataset, 10)));
 
         BaseLoader arffLoader = new ArffLoader();
@@ -31,7 +31,7 @@ public class Main {
         ClassificationRunner nbRunner = new ClassificationRunner(nb);
         arffLoader.loadInput(FileInputReaderFactory.make("data/car/car.arff"));
 
-        InstanceSet carDataset = InstanceSetFactory.make(arffLoader);
+        InstanceSet carDataset = InstanceSetFactory.make(arffLoader, "car dataset");
         out.println(String.format("NB: %f", nbRunner.crossValidate(carDataset, 10)));
     }
 }

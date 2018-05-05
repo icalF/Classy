@@ -11,16 +11,19 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class CsvLoader implements BaseLoader {
+public class CsvLoader extends BaseLoader {
     private InputReader input;
 
     @Override
     public void loadInput(InputReader input) {
+        super.loadInput(input);
         this.input = input;
     }
 
     @Override
     public Header loadHeader() {
+        super.loadHeader();
+
         String attributeNamesStr = input.next();
         String[] attributeNamesStrs = attributeNamesStr.split(Constants.COMMA);
 
@@ -43,6 +46,8 @@ public class CsvLoader implements BaseLoader {
 
     @Override
     public List<Instance> loadInstances(Header header) {
+        super.loadInstances(header);
+
         List<String> lines = new ArrayList<>();
 
         do {

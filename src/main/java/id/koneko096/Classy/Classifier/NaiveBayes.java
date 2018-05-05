@@ -32,6 +32,7 @@ public class NaiveBayes extends BaseClassifier {
 
     @Override
     public void train(InstanceSet trainSet) {
+        super.train(trainSet);
         prepareTable(trainSet);
         fillTable(trainSet);
         fillLikelihoodTable();
@@ -121,5 +122,10 @@ public class NaiveBayes extends BaseClassifier {
         .collect(Collectors.toList());
 
         return x.isEmpty() ? null : this.classVal.get(x.get(0).getValue());
+    }
+
+    @Override
+    public String showInfo() {
+        return "Classifier: Naive Bayes\n";
     }
 }

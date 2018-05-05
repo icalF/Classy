@@ -4,8 +4,8 @@ Simple kNN and NaiveBayes classifier implementation
 
 Todo:
 - [x] CSV loader
-- [ ] ARFF loader
+- [x] ARFF loader
 - [x] Naive-Bayes classifier
 - [x] k Nearest Neighbor classifier
 - [ ] Create CLI
-- [ ] External logging
+- [x] Runtime logging

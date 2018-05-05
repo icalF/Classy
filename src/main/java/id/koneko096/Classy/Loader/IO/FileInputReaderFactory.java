@@ -9,7 +9,7 @@ public class FileInputReaderFactory {
 
         try {
             InputStream is = new FileInputStream(initialFile);
-            inputReaderTemp = new InputReader(is);
+            inputReaderTemp = new InputReader(is, "File input path: " + fileName);
         } catch (FileNotFoundException e) {
             inputReaderTemp = null;
             e.printStackTrace();

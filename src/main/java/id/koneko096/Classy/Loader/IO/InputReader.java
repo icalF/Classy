@@ -1,5 +1,6 @@
 package id.koneko096.Classy.Loader.IO;
 
+import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
@@ -11,10 +12,12 @@ import java.util.StringTokenizer;
 public class InputReader {
     private BufferedReader reader;
     private StringTokenizer tokenizer;
+    @Getter private String name;
 
-    public InputReader(InputStream stream) {
-        reader = new BufferedReader(new InputStreamReader(stream), 32768);
-        tokenizer = null;
+    public InputReader(InputStream stream, String name) {
+        this.reader = new BufferedReader(new InputStreamReader(stream), 32768);
+        this.tokenizer = null;
+        this.name = name;
     }
 
     @SneakyThrows

@@ -11,16 +11,19 @@ import java.util.stream.Collectors;
 
 import static id.koneko096.Classy.Util.Constants.*;
 
-public class ArffLoader implements BaseLoader {
+public class ArffLoader extends BaseLoader {
     private InputReader input;
 
     @Override
     public void loadInput(InputReader input) {
+        super.loadInput(input);
         this.input = input;
     }
 
     @Override
     public Header loadHeader() {
+        super.loadHeader();
+
         List<String> attrNames = new ArrayList<>();
         Map<String, List<String>> attributes = new HashMap<>();
 
@@ -66,6 +69,8 @@ public class ArffLoader implements BaseLoader {
 
     @Override
     public List<Instance> loadInstances(Header header) {
+        super.loadInstances(header);
+
         String line = input.next();
         while (line != null && !line.startsWith(DATA_SEGMENT)) {
             line = input.next();
