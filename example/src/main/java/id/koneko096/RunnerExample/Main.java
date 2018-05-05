@@ -1,15 +1,9 @@
 package id.koneko096.RunnerExample;
 
-import id.koneko096.Classy.Classifier.BaseClassifier;
-import id.koneko096.Classy.Classifier.KNearestNeighbor;
-import id.koneko096.Classy.Classifier.NaiveBayes;
-import id.koneko096.Classy.Data.InstanceSet;
-import id.koneko096.Classy.Data.InstanceSetFactory;
-import id.koneko096.Classy.Loader.ArffLoader;
-import id.koneko096.Classy.Loader.BaseLoader;
-import id.koneko096.Classy.Loader.CsvLoader;
-import id.koneko096.Classy.Loader.IO.FileInputReaderFactory;
-import id.koneko096.Classy.Runner.ClassificationRunner;
+import id.koneko096.Classy.Classifier.*;
+import id.koneko096.Classy.Data.*;
+import id.koneko096.Classy.Loader.*;
+import id.koneko096.Classy.Runner.*;
 
 import java.io.PrintStream;
 

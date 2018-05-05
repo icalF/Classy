@@ -2,10 +2,24 @@
 
 Simple kNN and NaiveBayes classifier implementation
 
-Todo:
-- [x] CSV loader
-- [x] ARFF loader
-- [x] Naive-Bayes classifier
-- [x] k Nearest Neighbor classifier
-- [ ] Create CLI
-- [x] Runtime logging
+## Usage example
+
+```java
+
+public class Test {
+    public static void main(String[] args) {
+        PrintStream out = System.out;
+        BaseLoader csvLoader = new CsvLoader();
+
+        BaseClassifier knn = new KNearestNeighbor(4);
+        ClassificationRunner knnRunner = new ClassificationRunner(knn);
+        csvLoader.loadInput(FileInputReaderFactory.make("data/glass/glass.csv"));
+
+        InstanceSet glassDataset = InstanceSetFactory.make(csvLoader, "glass dataset");
+        out.println(String.format("KNN: %f", knnRunner.crossValidate(glassDataset, 10)));
+    }
+}
+
+```
+
+Example project see on `example` directory
