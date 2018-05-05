@@ -18,7 +18,6 @@ install:
 
 script:
 - ./gradlew test
-- ./gradlew run
 
 before_deploy:
 - ./gradlew assembleDist
