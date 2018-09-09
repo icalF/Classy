@@ -16,7 +16,6 @@ public class DistanceCalculator {
      * @return integer distance
      */
     public static double EuclideanDistance(Instance a, Instance b) {
-        //TODO
         List<Double> la = convertToListOfDouble(a);
         List<Double> lb = convertToListOfDouble(b);
 
@@ -33,7 +32,6 @@ public class DistanceCalculator {
      * @return integer distance
      */
     private static int HammingDistance(Instance a, Instance b) {
-        //TODO
         List<Integer> la = convertToListOfInteger(a);
         List<Integer> lb = convertToListOfInteger(b);
 
@@ -45,7 +43,11 @@ public class DistanceCalculator {
 
 
     private static List<Double> convertToListOfDouble(Instance x) {
-        return x.stream().map(i -> (Double)i.getValue()).collect(Collectors.toList());
+        try {
+            return x.stream().map(i -> (Double) i.getValue()).collect(Collectors.toList());
+        } catch (ClassCastException e) {
+            throw new RuntimeException("Fails to convert instance property to float\n", e);
+        }
     }
 
     private static List<Integer> convertToListOfInteger(Instance x) {

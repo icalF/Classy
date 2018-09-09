@@ -1,14 +1,17 @@
 package id.koneko096.Classy.Classifier;
 
-import java.util.*;
-import java.lang.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
 import id.koneko096.Classy.Util.DistanceCalculator;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Class KNearestNeighbor
@@ -16,6 +19,7 @@ import id.koneko096.Classy.Util.DistanceCalculator;
  *
  * @author Afrizal Fikri
  */
+@Slf4j
 public class KNearestNeighbor extends BaseClassifier {
 
     private InstanceSet trainSet;
@@ -45,9 +49,17 @@ public class KNearestNeighbor extends BaseClassifier {
      */
     @Override
     public String classify(Instance instance) {
-        List<Double> dist = trainSet.stream()
-                .map(i -> DistanceCalculator.EuclideanDistance(i, instance))
-                .collect(Collectors.toList());
+        List<Double> dist = Collections.EMPTY_LIST;
+        try {
+            dist = trainSet.stream()
+                    .map(i -> DistanceCalculator.EuclideanDistance(i, instance))
+                    .collect(Collectors.toList());
+        } catch (RuntimeException e) {
+            String errorMessage = "Error while computing distance\n";
+            log.error(errorMessage, e);
+            throw new RuntimeException(errorMessage, e);
+        }
+
         List<String> label = trainSet.stream()
                 .map(Instance::getLabel)
                 .collect(Collectors.toList());
