@@ -1,7 +1,6 @@
 package id.koneko096.Classy.Data;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 
 import java.util.*;
 import java.util.function.Function;
@@ -13,14 +12,13 @@ import java.util.stream.Stream;
  *
  * @author Afrizal Fikri
  */
-@EqualsAndHashCode
+@Data
 public class Instance implements Collection<Attribute> {
-    private @Getter
-    List<String> attributeNames;
+    private List<String> attributeNames;
     private Map<String, Attribute> attributeMap;
 
     private List<Attribute> attributeList;
-    private @Getter String label;
+    private String label;
 
     /**
      * Constructor

@@ -2,14 +2,14 @@ package id.koneko096.Classy.Data;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Getter
+@Data
 @AllArgsConstructor
 @Builder
 public class Header {

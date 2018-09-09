@@ -1,15 +1,14 @@
 package id.koneko096.Classy.Data;
 
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 
 /**
  * Class attribute
  *
  * @author Afrizal Fikri
  */
-@Getter
+@Data
 @AllArgsConstructor
 public class Attribute<T> {
     private T value;
