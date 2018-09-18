@@ -4,9 +4,11 @@ apply plugin: 'application'
 mainClassName = "id.koneko096.RunnerExample.Main"
 
 repositories {
-    mavenCentral()
+    maven {
+        url "https://dl.bintray.com/koneko096/maven"
+    }
 }
 
 dependencies {
-    compile project(':Classy')
+    compile 'id.koneko096:classy-core:1.0.1'
 }

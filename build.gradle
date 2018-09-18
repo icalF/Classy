@@ -8,6 +8,8 @@
 
 plugins {
     id 'com.palantir.git-version' version '0.11.0'
+    id "com.jfrog.bintray" version "1.7.3"
+    id "maven-publish"
 }
 
 // Apply the java plugin to add support for Java
@@ -19,7 +21,7 @@ targetCompatibility = 1.8
 
 jar {
     manifest {
-        attributes 'Implementation-Title': 'Classy',
+        attributes 'Implementation-Title': 'classy-core',
                    'Implementation-Version': version
     }
     from {
@@ -70,7 +72,7 @@ tasks.withType(Test) {
 repositories {
     // Use 'jcenter' for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
-    // jcenter()
+    jcenter()
     mavenCentral()
 }
 
@@ -87,4 +89,76 @@ dependencies {
     // 'test.useTestNG()' to your build script.
     testCompile 'junit:junit:4.12'
 }
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "koneko096"
+            name "Afrizal Fikri"
+            email "afrizalf96@gmail.com"
+        }
+    }
+
+    scm {
+        url "https://github.com/koneko096/Classy"
+    }
+}
+
+publishing {
+    publications {
+        mavenPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar {
+                classifier "sources"
+            }
+            groupId 'id.koneko096'
+            artifactId 'classy-core'
+            version version
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'Simple classifier')
+                root.appendNode('name', 'Classy')
+                root.appendNode('url', 'https://github.com/koneko096/Classy')
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+bintray {
+	user = System.getProperty('bintray.user')
+	key = System.getProperty('bintray.key')
+	publications = ['mavenPublication']
+
+	pkg {
+		repo = 'maven'
+		name = 'classy'
+		userOrg = 'koneko096'
+		licenses = ['Apache-2.0']
+		vcsUrl = 'https://github.com/koneko096/Classy.git'
+		version {
+			name = version
+			desc = version
+			released  = new Date()
+		}
+	}
+
+}
+
 
