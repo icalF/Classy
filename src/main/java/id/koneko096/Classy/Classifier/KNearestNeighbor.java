@@ -49,7 +49,7 @@ public class KNearestNeighbor extends BaseClassifier {
      */
     @Override
     public String classify(Instance instance) {
-        List<Double> dist = Collections.EMPTY_LIST;
+        List<Double> dist;
         try {
             dist = trainSet.stream()
                     .map(i -> DistanceCalculator.EuclideanDistance(i, instance))

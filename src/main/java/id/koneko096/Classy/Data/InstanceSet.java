@@ -68,6 +68,19 @@ public class InstanceSet implements Collection<Instance> {
     }
 
 
+    public void dropFields(List<String> fieldNames) throws UndefinedFieldException {
+        Optional<String> unpresentFields = fieldNames.stream()
+                .filter(f -> !this.header.getAttributeNameSet().contains(f))
+                .findFirst();
+
+        if (unpresentFields.isPresent()) {
+            throw new UndefinedFieldException(String.format("Field %s is undefined", unpresentFields.get()));
+        }
+
+        this.header.dropFields(fieldNames);
+        this.instanceList.forEach(i -> i.dropFields(fieldNames));
+    }
+
     public List<String> getAttributeNames() {
         return header.getAttributeNames();
     }

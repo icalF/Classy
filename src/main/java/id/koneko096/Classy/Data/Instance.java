@@ -5,6 +5,7 @@ import lombok.Data;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -137,5 +138,30 @@ public class Instance implements Collection<Attribute> {
     @Override
     public Stream<Attribute> stream() {
         return attributeList.stream();
+    }
+
+
+    void dropFields(List<String> fieldNames) {
+        Set<String> droppedNames = new HashSet<>(fieldNames);
+
+        List<Integer> droppedIndexes = IntStream
+                .range(0, attributeNames.size())
+                .filter(i -> droppedNames.contains(attributeNames.get(i)))
+                .boxed()
+                .collect(Collectors.toList());
+        List<Integer> notDroppedIndexes = IntStream
+                .range(0, attributeNames.size())
+                .filter(i -> !droppedNames.contains(attributeNames.get(i)))
+                .boxed()
+                .collect(Collectors.toList());
+
+        // Remove from map
+        droppedIndexes.forEach(i -> attributeMap.remove(attributeNames.get(i)));
+
+        // Remove from attr list
+        attributeList = notDroppedIndexes.stream().map(attributeList::get).collect(Collectors.toList());
+
+        // Remove from name list
+        attributeNames = notDroppedIndexes.stream().map(attributeNames::get).collect(Collectors.toList());
     }
 }
