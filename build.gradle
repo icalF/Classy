@@ -8,7 +8,7 @@
 
 plugins {
     id 'com.palantir.git-version' version '0.11.0'
-    id "com.jfrog.bintray" version "1.7.3"
+    id "com.jfrog.bintray" version "1.8.1"
     id "maven-publish"
 }
 
@@ -148,13 +148,13 @@ bintray {
 
 	pkg {
 		repo = 'maven'
-		name = 'classy'
+		name = 'classy-core'
 		userOrg = 'koneko096'
 		licenses = ['Apache-2.0']
 		vcsUrl = 'https://github.com/koneko096/Classy.git'
 		version {
-			name = version
-			desc = version
+			name = gitVersion()
+			desc = 'v${gitVersion()}'
 			released  = new Date()
 		}
 	}
