@@ -52,6 +52,7 @@ public class ArffLoader extends BaseLoader {
         List<String> attrTypesStr = new ArrayList<>(Collections.nCopies(attributes.size(), "NOMINAL")); //  TODO: READ FROM FILE/CONFIG
         return Header.builder()
                 .attributeNames(attrNames)
+                .attributeNameSet(new HashSet<>(attrNames))
                 .attributeCandidates(attributes)
                 .attributeTypes(attrTypesStr.stream()
                         .map(AttributeType::valueOf)

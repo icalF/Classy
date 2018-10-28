@@ -36,6 +36,7 @@ public class CsvLoader extends BaseLoader {
 
         return Header.builder()
                 .attributeNames(new ArrayList<>(attributeNameMap.keySet()))
+                .attributeNameSet(new HashSet<>(attributeNameMap.keySet()))
                 .attributeCandidates(attributeNameMap)
                 .attributeTypes(attributeTypeList.stream()
                         .map(AttributeType::valueOf)
