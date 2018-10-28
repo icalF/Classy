@@ -5,7 +5,6 @@ import id.koneko096.Classy.Data.InstanceSet;
 import id.koneko096.Classy.Util.DistanceCalculator;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
