@@ -1,8 +1,11 @@
 package id.koneko096.RunnerExample;
 
+import java.util.*;
+
 import id.koneko096.Classy.Classifier.*;
 import id.koneko096.Classy.Data.*;
 import id.koneko096.Classy.Loader.*;
+import id.koneko096.Classy.Loader.IO.FileInputReaderFactory;
 import id.koneko096.Classy.Runner.*;
 
 import java.io.PrintStream;
@@ -17,6 +20,13 @@ public class Main {
         csvLoader.loadInput(FileInputReaderFactory.make("data/glass/glass.csv"));
 
         InstanceSet glassDataset = InstanceSetFactory.make(csvLoader, "glass dataset");
+        out.println(String.format("KNN: %f", knnRunner.crossValidate(glassDataset, 10)));
+
+        try {
+            glassDataset.dropFields(Arrays.asList("Al", "K"));
+        } catch (UndefinedFieldException e) {
+            // do nothing
+        }
         out.println(String.format("KNN: %f", knnRunner.crossValidate(glassDataset, 10)));
 
         BaseLoader arffLoader = new ArffLoader();
