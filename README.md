@@ -1,5 +1,6 @@
 # Classy [![Build Status](https://travis-ci.org/koneko096/Classy.svg?branch=master)](https://travis-ci.org/koneko096/Classy)
-
+ [ ![Download](https://api.bintray.com/packages/koneko096/maven/classy-core/images/download.svg) ](https://bintray.com/koneko096/maven/classy-core/_latestVersion)
+ 
 Simple kNN and NaiveBayes classifier implementation
 
 ## Usage example
