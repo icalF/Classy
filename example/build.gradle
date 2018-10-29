@@ -5,9 +5,7 @@ mainClassName = "id.koneko096.RunnerExample.Main"
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://dl.bintray.com/koneko096/maven"
-    }
+    jcenter()
 }
 
 dependencies {

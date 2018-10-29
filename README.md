@@ -17,6 +17,13 @@ public class Test {
         csvLoader.loadInput(FileInputReaderFactory.make("data/glass/glass.csv"));
 
         InstanceSet glassDataset = InstanceSetFactory.make(csvLoader, "glass dataset");
+
+        try {
+            glassDataset.dropFields(Arrays.asList("Al", "K"));
+        } catch (UndefinedFieldException e) {
+            // handle error
+        }
+
         out.println(String.format("KNN: %f", knnRunner.crossValidate(glassDataset, 10)));
     }
 }
