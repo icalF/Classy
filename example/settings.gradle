@@ -1,6 +1,1 @@
 rootProject.name = 'RunnerExample'
-
-//include ':Classy'
-
-//project(':Classy').projectDir = new File(settingsDir, '../')
-

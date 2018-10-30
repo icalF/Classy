@@ -25,11 +25,12 @@ public class InstanceSet implements Collection<Instance> {
     /**
      * Copy cnstructor
      *
-     * @param is
+     * @param is instance set
      */
     public InstanceSet(InstanceSet is) {
         this.instanceList = new ArrayList<>(is.instanceList);
-        this.header = new Header(header);
+        this.header = new Header(is.header);
+        this.name = is.name;
     }
 
     /**
@@ -67,7 +68,9 @@ public class InstanceSet implements Collection<Instance> {
         return new CrossSplit(trainSets, testSets);
     }
 
-
+    /**
+     * Drop fields inside aan instance set header and instances
+     */
     public void dropFields(List<String> fieldNames) throws UndefinedFieldException {
         Optional<String> unpresentFields = fieldNames.stream()
                 .filter(f -> !this.header.getAttributeNameSet().contains(f))

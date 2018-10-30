@@ -25,9 +25,14 @@ public class Main {
         try {
             glassDataset.dropFields(Arrays.asList("Al", "K"));
         } catch (UndefinedFieldException e) {
-            // do nothing
+            // handle error
         }
-        out.println(String.format("KNN: %f", knnRunner.crossValidate(glassDataset, 10)));
+
+        try {
+            out.println(String.format("KNN: %f", knnRunner.crossValidate(glassDataset, 10)));
+        } catch (ModelEmptyException e) {
+            // handle error
+        }
 
         BaseLoader arffLoader = new ArffLoader();
 
@@ -36,6 +41,10 @@ public class Main {
         arffLoader.loadInput(FileInputReaderFactory.make("data/car/car.arff"));
 
         InstanceSet carDataset = InstanceSetFactory.make(arffLoader, "car dataset");
-        out.println(String.format("NB: %f", nbRunner.crossValidate(carDataset, 10)));
+        try {
+            out.println(String.format("NB: %f", nbRunner.crossValidate(carDataset, 10)));
+        } catch (ModelEmptyException e) {
+            // handle error
+        }
     }
 }

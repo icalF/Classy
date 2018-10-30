@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 @Builder
-public class ClassificationUnit {
+class ClassificationUnit {
     private final BaseClassifier classifier;
     private final InstanceSet trainSet;
     private final List<Instance> testSet;
@@ -26,15 +26,10 @@ public class ClassificationUnit {
     }
 
     private String classify(Instance instance) {
-        try {
-            return this.classifier.classify(instance);
-        } catch (ModelEmptyException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return this.classifier.classify(instance);
     }
 
-    public List<String> run() {
+    List<String> run() {
         if (this.trainSet != null)
             this.classifier.train(this.trainSet);
 
