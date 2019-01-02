@@ -42,15 +42,15 @@ public class DistanceCalculator {
     }
 
 
-    private static List<Double> convertToListOfDouble(Instance x) {
+    private static List<Double> convertToListOfDouble(Instance instance) {
         try {
-            return x.stream().map(i -> (Double) i.getValue()).collect(Collectors.toList());
+            return instance.stream().map(i -> (Double) i.getValue()).collect(Collectors.toList());
         } catch (ClassCastException e) {
             throw new RuntimeException("Fails to convert instance property to float\n", e);
         }
     }
 
-    private static List<Integer> convertToListOfInteger(Instance x) {
-        return x.stream().map(Attribute::hashCode).collect(Collectors.toList());
+    private static List<Integer> convertToListOfInteger(Instance instance) {
+        return instance.stream().map(Attribute::hashCode).collect(Collectors.toList());
     }
 }
