@@ -2,7 +2,7 @@ package id.koneko096.Classy.Classifier;
 
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
-import id.koneko096.Classy.Util.DataPreparationUtil;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;
@@ -22,18 +22,18 @@ import java.util.stream.IntStream;
 public class KNearestNeighbor implements BaseClassifier {
 
     private InstanceSet trainSet;
-    private int k;
-    private DistanceCalculator distanceCalculator;
+    @Setter private int k;
+    @Setter private DistanceCalculator distanceCalculator;
 
     public KNearestNeighbor(int k) {
         this.k = k;
+        this.distanceCalculator = new EuclideanDistanceCalculator();
     }
 
     @Override
     public void train(InstanceSet trainSet) {
         writeLog(this.log, trainSet);
         this.trainSet = trainSet;
-        this.distanceCalculator = new EuclideanDistanceCalculator();
     }
 
     public void train(InstanceSet trainSet, DistanceCalculator distanceCalculator) {

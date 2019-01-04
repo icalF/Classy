@@ -9,5 +9,5 @@ repositories {
 }
 
 dependencies {
-    compile 'id.koneko096:classy-core:1.0.3'
+    compile 'id.koneko096:classy-core:1.1.1'
 }

@@ -17,18 +17,19 @@ public class Main {
 
         BaseClassifier knn = new KNearestNeighbor(4);
         ClassificationRunner knnRunner = new ClassificationRunner(knn);
-        csvLoader.loadInput(FileInputReaderFactory.make("data/glass/glass.csv"));
+        csvLoader.loadInput(FileInputReaderFactory.make("example/data/glass/glass.csv"));
 
         InstanceSet glassDataset = InstanceSetFactory.make(csvLoader, "glass dataset");
         out.println(String.format("KNN: %f", knnRunner.crossValidate(glassDataset, 10)));
 
         try {
-            glassDataset.dropFields(Arrays.asList("Al", "K"));
+            glassDataset.dropFields(Arrays.asList("Al", "K", "Abc"));
         } catch (UndefinedFieldException e) {
             // handle error
         }
 
         try {
+            ((KNearestNeighbor) knn).setDistanceCalculator(new HammingDistanceCalculator());
             out.println(String.format("KNN: %f", knnRunner.crossValidate(glassDataset, 10)));
         } catch (ModelEmptyException e) {
             // handle error
@@ -38,7 +39,7 @@ public class Main {
 
         BaseClassifier nb = new NaiveBayes();
         ClassificationRunner nbRunner = new ClassificationRunner(nb);
-        arffLoader.loadInput(FileInputReaderFactory.make("data/car/car.arff"));
+        arffLoader.loadInput(FileInputReaderFactory.make("example/data/car/car.arff"));
 
         InstanceSet carDataset = InstanceSetFactory.make(arffLoader, "car dataset");
         try {
