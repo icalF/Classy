@@ -58,7 +58,7 @@ public class ClassificationRunner {
 
         List<ClassificationUnit> clfList = IntStream.range(0, fold).boxed()
                 .map(i -> new ClassificationUnit.ClassificationUnitBuilder()
-                        .classifier((BaseClassifier)(this.classifier.clone()))
+                        .classifier(this.classifier)
                         .trainSet(trainSets.get(i))
                         .testSet(testSets.get(i))
                         .build())

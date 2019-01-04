@@ -2,7 +2,7 @@ package id.koneko096.Classy.Classifier;
 
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
-import id.koneko096.Classy.Util.DistanceCalculator;
+import id.koneko096.Classy.Util.DataPreparationUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;
@@ -23,35 +23,31 @@ public class KNearestNeighbor implements BaseClassifier {
 
     private InstanceSet trainSet;
     private int k;
+    private DistanceCalculator distanceCalculator;
 
     public KNearestNeighbor(int k) {
         this.k = k;
     }
 
-    /**
-     * Add new instances to saved train set before
-     * Or create new if doesnt exist
-     *
-     * @param trainSet
-     */
     @Override
     public void train(InstanceSet trainSet) {
         writeLog(this.log, trainSet);
         this.trainSet = trainSet;
+        this.distanceCalculator = new EuclideanDistanceCalculator();
     }
 
-    /**
-     * Do classifying by given train set
-     *
-     * @param instance
-     * @return string class
-     */
+    public void train(InstanceSet trainSet, DistanceCalculator distanceCalculator) {
+        writeLog(this.log, trainSet);
+        this.trainSet = trainSet;
+        this.distanceCalculator = distanceCalculator;
+    }
+
     @Override
     public String classify(Instance instance) {
         List<Double> dist;
         try {
             dist = trainSet.stream()
-                    .map(i -> DistanceCalculator.EuclideanDistance(i, instance))
+                    .map(i -> this.distanceCalculator.calculate(i, instance))
                     .collect(Collectors.toList());
         } catch (RuntimeException e) {
             String errorMessage = "Error while computing distance\n";
