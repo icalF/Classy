@@ -81,7 +81,7 @@ public class InstanceSet implements Collection<Instance> {
         }
 
         this.header.dropFields(fieldNames);
-        this.instanceList.forEach(i -> i.dropFields(fieldNames));
+        this.instanceList.forEach(i -> i.dropAttributes(fieldNames));
     }
 
     public List<String> getAttributeNames() {

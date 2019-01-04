@@ -101,8 +101,12 @@ public class Instance {
         return attributeList.stream();
     }
 
-    void dropFields(List<String> fieldNames) {
-        List<String> filteredNames = fieldNames.stream()
+    /*
+     * Implemented using soft delete
+     * Rationale: most of attributes removal is less than half of total attributes
+     */
+    void dropAttributes(List<String> attributeNames) {
+        List<String> filteredNames = attributeNames.stream()
             .filter(s -> s != null && !s.isEmpty())
             .collect(Collectors.toList());
         disabledNames.addAll(filteredNames);
