@@ -3,6 +3,7 @@ package id.koneko096.Classy.Classifier;
 import id.koneko096.Classy.Data.Attribute;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.AbstractMap;
 import java.util.Comparator;
@@ -12,7 +13,13 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class NaiveBayes extends BaseClassifier {
+/**
+ * Class NaiveBayes
+ *
+ * @author Afrizal Fikri
+ */
+@Slf4j
+public class NaiveBayes implements BaseClassifier {
 
     private List<Map<String, Integer>> attrValIdx;
 
@@ -32,7 +39,7 @@ public class NaiveBayes extends BaseClassifier {
 
     @Override
     public void train(InstanceSet trainSet) {
-        super.train(trainSet);
+        writeLog(this.log, trainSet);
         prepareTable(trainSet);
         fillTable(trainSet);
         fillLikelihoodTable();

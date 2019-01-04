@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
  * @author Afrizal Fikri
  */
 @Slf4j
-public class KNearestNeighbor extends BaseClassifier {
+public class KNearestNeighbor implements BaseClassifier {
 
     private InstanceSet trainSet;
     private int k;
@@ -36,7 +36,7 @@ public class KNearestNeighbor extends BaseClassifier {
      */
     @Override
     public void train(InstanceSet trainSet) {
-        super.train(trainSet);
+        writeLog(this.log, trainSet);
         this.trainSet = trainSet;
     }
 
