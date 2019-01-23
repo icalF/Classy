@@ -3,21 +3,23 @@ package id.koneko096.Classy.Loader;
 import id.koneko096.Classy.Data.Header;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Loader.IO.InputReader;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 
 import java.util.List;
 
-@Slf4j
-public abstract class BaseLoader {
-    public void loadInput(InputReader input) {
-        log.debug("Load input dataset using: {}", input.getName());
+public interface BaseLoader {
+
+    /**
+     * Get input supplier
+     * TODO: return chainable object
+     */
+    void loadInput(InputReader input);
+
+    default void writeLog(Logger log, String readerName) {
+        log.debug("Load input dataset using: {}", readerName);
     }
 
-    public Header loadHeader() {
-        return null;
-    }
+    Header parseHeader();
 
-    public List<Instance> loadInstances(Header header) {
-        return null;
-    }
+    List<Instance> parseInstances(Header header);
 }

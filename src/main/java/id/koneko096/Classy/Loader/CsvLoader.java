@@ -6,29 +6,29 @@ import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceParser;
 import id.koneko096.Classy.Loader.IO.InputReader;
 import id.koneko096.Classy.Util.Constants;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class CsvLoader extends BaseLoader {
+@Slf4j
+public class CsvLoader implements BaseLoader {
     private InputReader input;
 
     @Override
     public void loadInput(InputReader input) {
-        super.loadInput(input);
+        writeLog(log, input.getName());
         this.input = input;
     }
 
     @Override
-    public Header loadHeader() {
-        super.loadHeader();
-
+    public Header parseHeader() {
         String attributeNamesStr = input.next();
         String[] attributeNamesStrs = attributeNamesStr.split(Constants.COMMA);
 
         Map<String, List<String>> attributeNameMap = Arrays.stream(attributeNamesStrs)
-                .collect(Collectors.toMap(Function.identity(), x->Collections.EMPTY_LIST));
+                .collect(Collectors.toMap(Function.identity(), x->Collections.emptyList()));
 
         String attributeTypesStr = input.next();
         attributeNamesStrs = attributeTypesStr.split(Constants.COMMA);
@@ -46,9 +46,7 @@ public class CsvLoader extends BaseLoader {
     }
 
     @Override
-    public List<Instance> loadInstances(Header header) {
-        super.loadInstances(header);
-
+    public List<Instance> parseInstances(Header header) {
         List<String> lines = new ArrayList<>();
 
         do {

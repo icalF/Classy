@@ -11,8 +11,8 @@ public class InstanceSetFactory {
     }
 
     public static InstanceSet make(BaseLoader loader, String name) {
-        Header header = loader.loadHeader();
-        List<Instance> instances = loader.loadInstances(header);
+        Header header = loader.parseHeader();
+        List<Instance> instances = loader.parseInstances(header);
         return InstanceSet.builder()
                 .instanceList(instances)
                 .header(header)

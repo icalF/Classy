@@ -5,24 +5,25 @@ import id.koneko096.Classy.Data.Header;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceParser;
 import id.koneko096.Classy.Loader.IO.InputReader;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static id.koneko096.Classy.Util.Constants.*;
 
-public class ArffLoader extends BaseLoader {
+@Slf4j
+public class ArffLoader implements BaseLoader {
     private InputReader input;
 
     @Override
     public void loadInput(InputReader input) {
-        super.loadInput(input);
+        writeLog(log, input.getName());
         this.input = input;
     }
 
     @Override
-    public Header loadHeader() {
-        super.loadHeader();
+    public Header parseHeader() {
 
         List<String> attrNames = new ArrayList<>();
         Map<String, List<String>> attributes = new HashMap<>();
@@ -69,9 +70,7 @@ public class ArffLoader extends BaseLoader {
     }
 
     @Override
-    public List<Instance> loadInstances(Header header) {
-        super.loadInstances(header);
-
+    public List<Instance> parseInstances(Header header) {
         String line = input.next();
         while (line != null && !line.startsWith(DATA_SEGMENT)) {
             line = input.next();
@@ -79,7 +78,7 @@ public class ArffLoader extends BaseLoader {
         line = input.next();
 
         if (line == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         List<String> lines = new ArrayList<>();
