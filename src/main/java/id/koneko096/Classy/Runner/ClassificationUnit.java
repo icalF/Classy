@@ -1,7 +1,6 @@
 package id.koneko096.Classy.Runner;
 
 import id.koneko096.Classy.Classifier.BaseClassifier;
-import id.koneko096.Classy.Classifier.ModelEmptyException;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
 import lombok.AllArgsConstructor;
