@@ -4,6 +4,7 @@ import id.koneko096.Classy.Classifier.BaseClassifier;
 import id.koneko096.Classy.Data.CrossSplit;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
+import id.koneko096.Classy.Util.DelayedFormatter;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -89,19 +90,4 @@ public class ClassificationRunner {
                         expecteds.get(i).equals(actuals.get(i)) ? 1.0 : 0.0 ));
     }
 
-    static class DelayedFormatter{
-        String format;  Object[] args;
-
-        public DelayedFormatter(String format, Object... args){
-            this.format = format;  this.args = args;
-        }
-
-        public static DelayedFormatter format(String format, Object... args){
-            return new DelayedFormatter(format, args);
-        }
-
-        @Override public String toString(){
-            return String.format(format, args);
-        }
-    }
 }
