@@ -35,10 +35,6 @@ public class NaiveBayes implements BaseClassifier {
     private double[] classProbs;
     private double[][][] attrLikelihood;
 
-    public NaiveBayes() {
-
-    }
-
     @Override
     public void train(InstanceSet trainSet) {
         writeLog(log, trainSet.getName());

@@ -3,14 +3,13 @@ package id.koneko096.Classy.Loader;
 import id.koneko096.Classy.Data.Header;
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Loader.IO.InputReader;
+import id.koneko096.Classy.Util.Constants;
 import id.koneko096.Classy.Util.Loggable;
 import org.slf4j.Logger;
 
 import java.util.List;
 
 public interface BaseLoader extends Loggable {
-
-  String LOAD_INPUT_DATASET_USING = "Load input dataset using: {}";
 
   /**
      * Get input supplier
@@ -19,7 +18,7 @@ public interface BaseLoader extends Loggable {
     void loadInput(InputReader input);
 
     default void writeLog(Logger log, String readerName) {
-        writeLog(log, LOAD_INPUT_DATASET_USING, readerName);
+        writeLog(log, Constants.LOG_LOAD_INPUT_DATASET_USING, readerName);
     }
 
     Header parseHeader();

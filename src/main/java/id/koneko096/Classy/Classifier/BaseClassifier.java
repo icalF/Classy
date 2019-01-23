@@ -2,6 +2,7 @@ package id.koneko096.Classy.Classifier;
 
 import id.koneko096.Classy.Data.Instance;
 import id.koneko096.Classy.Data.InstanceSet;
+import id.koneko096.Classy.Util.Constants;
 import id.koneko096.Classy.Util.Loggable;
 import org.slf4j.Logger;
 
@@ -12,9 +13,7 @@ import org.slf4j.Logger;
  */
 public interface BaseClassifier extends Loggable {
 
-    String TRAINING_DATASET = "Training dataset {}";
-
-    /**
+  /**
      * Do training by given dataset
      * Implementation depend on each class
      *
@@ -23,7 +22,7 @@ public interface BaseClassifier extends Loggable {
     void train(InstanceSet trainSet);
 
     default void writeLog(Logger log, String trainSetName) {
-        writeLog(log, TRAINING_DATASET, trainSetName);
+        writeLog(log, Constants.LOG_TRAINING_DATASET, trainSetName);
     }
 
     /**
