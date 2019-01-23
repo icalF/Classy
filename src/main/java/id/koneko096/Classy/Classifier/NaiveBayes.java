@@ -21,7 +21,9 @@ import java.util.stream.IntStream;
 @Slf4j
 public class NaiveBayes implements BaseClassifier {
 
-    private List<Map<String, Integer>> attrValIdx;
+  private static final String INFO_CLASSIFIER_NAIVE_BAYES = "Classifier: Naive Bayes\n";
+
+  private List<Map<String, Integer>> attrValIdx;
 
     private Map<String, Integer> classIdx;
     private List<String> classVal;
@@ -74,15 +76,13 @@ public class NaiveBayes implements BaseClassifier {
             int classId = entry.getKey();
             List<Instance> instances = entry.getValue();
 
-            instances.stream().forEach(instance -> {
+            instances.stream().forEach(instance ->
                 IntStream.range(0, attrNames.size()).forEach(id -> {
-                        String attrName = attrNames.get(id);
-                        Attribute attr = instance.get(attrName);
+                    String attrName = attrNames.get(id);
+                    Attribute attr = instance.get(attrName);
                     int attrIdx = this.attrValIdx.get(id).get(attr.getValue().toString());
-
-                        this.table[id][attrIdx][classId]++;
-                });
-            });
+                    this.table[id][attrIdx][classId]++;
+            }));
 
             this.classCum[classId] += instances.size();
         });
@@ -133,6 +133,6 @@ public class NaiveBayes implements BaseClassifier {
 
     @Override
     public String showInfo() {
-        return "Classifier: Naive Bayes\n";
+        return INFO_CLASSIFIER_NAIVE_BAYES;
     }
 }

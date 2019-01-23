@@ -4,4 +4,5 @@ import id.koneko096.Classy.Data.Instance;
 
 public interface DistanceCalculator {
     double calculate(Instance a, Instance b);
+    String getName();
 }

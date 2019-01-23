@@ -21,7 +21,10 @@ import java.util.stream.IntStream;
 @Slf4j
 public class KNearestNeighbor implements BaseClassifier {
 
-    private InstanceSet trainSet;
+  private static final String INFO_CLASSIFIER_K_NEAREST_NEIGHBORS =
+      "Classifier: K Nearest Neighbors\nNeighbor number: %d \nDistance metric: %s\n";
+
+  private InstanceSet trainSet;
     @Setter private int k;
     @Setter private DistanceCalculator distanceCalculator;
 
@@ -76,9 +79,7 @@ public class KNearestNeighbor implements BaseClassifier {
 
     @Override
     public String showInfo() {
-        return "Classifier: K Nearest Neighbors\n" +
-                "Neighbor number: " +
-                this.k +
-                "\nDistance metric: Euclidean distance\n";
+        return String.format(INFO_CLASSIFIER_K_NEAREST_NEIGHBORS,
+            this.k, this.distanceCalculator.getName());
     }
 }

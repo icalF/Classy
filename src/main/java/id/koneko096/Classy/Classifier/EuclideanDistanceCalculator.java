@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class EuclideanDistanceCalculator implements DistanceCalculator {
+
+  private static final String EUCLIDEAN = "Euclidean";
+
   @Override
   public double calculate(Instance a, Instance b) {
 
@@ -17,5 +20,10 @@ public class EuclideanDistanceCalculator implements DistanceCalculator {
     return Math.sqrt(IntStream.range(0, la.size()).boxed()
         .mapToDouble(i -> Math.sqr(la.get(i) - lb.get(i)))
         .sum());
+  }
+
+  @Override
+  public String getName() {
+    return EUCLIDEAN;
   }
 }

@@ -32,7 +32,7 @@ public interface BaseClassifier extends Loggable {
      * @param instance
      * @return class
      */
-    String classify(Instance instance) throws ModelEmptyException;
+    String classify(Instance instance);
 
     String showInfo();
 }

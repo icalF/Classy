@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class HammingDistanceCalculator implements DistanceCalculator {
+
+  private static final String HAMMING = "Hamming";
+
   @Override
   public double calculate(Instance a, Instance b) {
     List<Integer> la = DataPreparationUtil.convertToListOfInteger(a);
@@ -16,5 +19,10 @@ public class HammingDistanceCalculator implements DistanceCalculator {
         .map(i -> !la.get(i).equals(lb.get(i)))
         .mapToInt(bl -> (bl ? 1 : 0))
         .sum();
+  }
+
+  @Override
+  public String getName() {
+    return HAMMING;
   }
 }
