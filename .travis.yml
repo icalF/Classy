@@ -11,6 +11,7 @@ install:
 - chmod +x gradlew
 - "./gradlew dependencies"
 script:
+- "./gradlew sonarqube -Dsonar.projectKey=koneko096_Classy -Dsonar.organization=koneko096-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_KEY"
 - "./gradlew test"
 before_deploy:
 - "./gradlew jar"
