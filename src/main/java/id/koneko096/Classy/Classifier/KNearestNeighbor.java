@@ -32,12 +32,12 @@ public class KNearestNeighbor implements BaseClassifier {
 
     @Override
     public void train(InstanceSet trainSet) {
-        writeLog(this.log, trainSet);
+        writeLog(log, trainSet.getName());
         this.trainSet = trainSet;
     }
 
     public void train(InstanceSet trainSet, DistanceCalculator distanceCalculator) {
-        writeLog(this.log, trainSet);
+        writeLog(log, trainSet.getName());
         this.trainSet = trainSet;
         this.distanceCalculator = distanceCalculator;
     }

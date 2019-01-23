@@ -39,7 +39,7 @@ public class NaiveBayes implements BaseClassifier {
 
     @Override
     public void train(InstanceSet trainSet) {
-        writeLog(this.log, trainSet);
+        writeLog(log, trainSet.getName());
         prepareTable(trainSet);
         fillTable(trainSet);
         fillLikelihoodTable();
