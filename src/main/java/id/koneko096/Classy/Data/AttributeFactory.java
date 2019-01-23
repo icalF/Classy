@@ -1,6 +1,11 @@
 package id.koneko096.Classy.Data;
 
 public class AttributeFactory {
+
+    private AttributeFactory() {
+
+    }
+
     public static Attribute make(Class type, String value, String name) {
         switch (type.getName()) {
             case "java.lang.Double":

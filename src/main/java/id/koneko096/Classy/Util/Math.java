@@ -2,6 +2,10 @@ package id.koneko096.Classy.Util;
 
 public class Math {
 
+    private Math() {
+
+    }
+
     public static double sqrt(double v) {
         final long x = Double.doubleToLongBits(v) >> 32;
         double y = Double.longBitsToDouble((x + 1072632448) << 31);

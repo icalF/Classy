@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 
 public class DataPreparationUtil {
 
+    private DataPreparationUtil() {
+        
+    }
+
     public  static List<Double> convertToListOfDouble(Instance instance) {
         try {
             return instance.stream().map(i -> (Double) i.getValue()).collect(Collectors.toList());

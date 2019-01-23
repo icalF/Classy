@@ -8,6 +8,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class InstanceParser {
+
+    private InstanceParser() {
+
+    }
+
     public static List<Instance> parse(List<String> lines, Header header) {
         List<Class> attrTypes = header.getAttributeTypes();
         List<String> attrNames = header.getAttributeNames();

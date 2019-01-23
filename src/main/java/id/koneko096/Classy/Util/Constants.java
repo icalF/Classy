@@ -1,6 +1,11 @@
 package id.koneko096.Classy.Util;
 
 public class Constants {
+
+    private Constants() {
+
+    }
+
     public final static String COMMA = ",";
     public final static String DELIMITERS = "[, ]";
     public final static String ATTRIBUTE_SEGMENT = "@ATTRIBUTE";

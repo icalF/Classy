@@ -9,7 +9,12 @@ import java.io.InputStream;
 
 @Slf4j
 public class FileInputReaderFactory {
-    public static InputReader make(String fileName) {
+
+  private FileInputReaderFactory() {
+
+  }
+
+  public static InputReader make(String fileName) {
         InputReader inputReaderTemp;
         File initialFile = new File(fileName);
 
