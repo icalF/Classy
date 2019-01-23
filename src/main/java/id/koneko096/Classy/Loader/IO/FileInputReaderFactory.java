@@ -23,8 +23,7 @@ public class FileInputReaderFactory {
             inputReaderTemp = new InputReader(is, "File input path: " + fileName);
         } catch (FileNotFoundException e) {
             inputReaderTemp = null;
-            log.error("File={} not found", fileName);
-            e.printStackTrace();
+            log.error("File={} not found", fileName, e);
         }
 
         return inputReaderTemp;
